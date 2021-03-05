@@ -18,6 +18,8 @@ private:
   double redshift;
   double total_mass;
   double stellar_mass_fraction;
+  //int satellite;
+  std::vector<galaxy> satellite_data;
 
 public:
   // Constructors
@@ -27,23 +29,37 @@ public:
    hubble_type{g_hubble_type}, redshift{g_redshift}, total_mass{g_total_mass}, stellar_mass_fraction{g_stellar_mass_fraction}
   {}
   // Destructor
-  ~galaxy(){std::cout<<"Destroying "<<hubble_type<<","<<redshift<<","<<total_mass<<","<<stellar_mass_fraction<<std::endl;}
+  ~galaxy() {}
 
-  double stellar_mass() {return stellar_mass_fraction * total_mass;}
+  double stellar_mass() 
+  {
+    return stellar_mass_fraction * total_mass;
+  }
 
   // Change galaxy's Hubble type
-  void change_type(std::string new_type) {hubble_type = new_type;}
+  void change_type(std::string new_type) 
+  {
+    hubble_type = new_type;
+  }
+
   // Prototype for function to print out an object's data
   void print_data();
-  // Add satellite galaxy
+
+  // Add a satellite galaxy
+  void add_satellite()
+  {
+    galaxy s1("SBa,",5.0,1.e10,0.03);
+    satellite_data.push_back(s1);
+  }
 };
 
 // Print out an object's data
 void galaxy::print_data()
 {
   std::cout.precision(3); 
-  std::cout<<"Galaxy: [Hubble type,z,m,f_*] = ["<<hubble_type<<","<< redshift
+  std::cout<<"Galaxy/Satellite: [Hubble type,z,m,f_*] = ["<<hubble_type<<","<< redshift
        <<","<<total_mass<<","<<stellar_mass_fraction<<"]"<<std::endl;
+  std::cout<<"Satellite number is: "<<satellite_data.size()<<std::endl;
   return;
 }
 
@@ -56,7 +72,7 @@ int main()
   // Example using parameterised constructor
   galaxy g2("E2",1.0,3.e8,0.02);
 
-  // print out data
+  // Print out data
   std::vector<galaxy> galaxy_data;
   galaxy_data.push_back(g1);
   galaxy_data.push_back(g2);
@@ -73,8 +89,6 @@ int main()
   for(auto galaxy_it=galaxy_data.begin(); galaxy_it <galaxy_data.end(); ++galaxy_it){
     galaxy_it->print_data();
   }
-  
-  // Add satellite galaxies
   
   return 0;
 }
