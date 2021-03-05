@@ -14,7 +14,7 @@
 #include<limits>
 #include<string>
 
-// Functions to compute mean and standard deviation
+// Function to compute mean
 double calculate_mean(double *grades, int n_data)
 {
   double sum{0};
@@ -25,6 +25,7 @@ double calculate_mean(double *grades, int n_data)
   return mean;
 }
 
+// Function to compute standard deviation
 double calculate_standard_deviation(double *grades, int n_data)
 {
   double sum;
@@ -35,6 +36,14 @@ double calculate_standard_deviation(double *grades, int n_data)
   int divider{n_data-1};
   double standard_deviation{sqrt(sum/divider)};
   return standard_deviation;
+}
+
+// Function to compute the standard error on the mean
+double calculate_standard_error(double standard_deviation, int n_data)
+{
+  double temp{pow(n_data, 0.5)};
+  double standard_error{standard_deviation/temp};
+  return standard_error;
 }
 
 int main()
@@ -78,8 +87,9 @@ int main()
   file1.close();
 
   double mean{calculate_mean(grades,n_data)};
-  std::cout<<std::endl<<"The mean is: "<<std::setprecision(3)<<mean<<std::endl;
   double standard_deviation{calculate_standard_deviation(grades,n_data)};
+  double standard_error{calculate_standard_error(standard_deviation, n_data)};
+  std::cout<<std::endl<<"The mean is: "<<std::setprecision(3)<<mean<<" +- "<<standard_error<<std::endl;
   std::cout<<"The standard deviation is: "<<std::setprecision(3)<<standard_deviation<<std::endl;
 
   delete[] grades;
