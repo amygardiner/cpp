@@ -27,7 +27,7 @@ public:
    hubble_type{g_hubble_type}, redshift{g_redshift}, total_mass{g_total_mass}, stellar_mass_fraction{g_stellar_mass_fraction}
   {}
   // Destructor
-  ~galaxy(){std::cout<<"Destroying "<<hubble_type<<std::endl;}
+  ~galaxy(){std::cout<<"Destroying "<<hubble_type<<","<<redshift<<","<<total_mass<<","<<stellar_mass_fraction<<std::endl;}
 
   double stellar_mass() {return stellar_mass_fraction * total_mass;}
 
