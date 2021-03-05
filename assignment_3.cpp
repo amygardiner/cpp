@@ -36,7 +36,6 @@ public:
   // Prototype for function to print out an object's data
   void print_data();
   // Add satellite galaxy
-
 };
 
 // Print out an object's data
@@ -66,16 +65,16 @@ int main()
     galaxy_it->print_data();
     std::cout<<"has stellar mass ="<<galaxy_it-> stellar_mass()<<std::endl;
   }
-
-  // Change Hubble type from Irr to S0
-  g1.change_type("S0");
-  //std::cout<<"Galaxy g1 now has Hubble type: "<<g1.hubble_type()<<std::endl;
   
+  // Change Hubble type from Irr to S0
+  //g1.change_type("S0");
+  galaxy_data[1].change_type("S0");
+
   for(auto galaxy_it=galaxy_data.begin(); galaxy_it <galaxy_data.end(); ++galaxy_it){
     galaxy_it->print_data();
   }
   
   // Add satellite galaxies
-
+  
   return 0;
 }
