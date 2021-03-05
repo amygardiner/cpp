@@ -23,8 +23,8 @@ public:
   // Constructors
   galaxy() : hubble_type{"Irr"}, redshift{}, total_mass{}, stellar_mass_fraction{}  {}
 
-  galaxy(std::string g.hubble_type , double g.redshift , double g.total_mass , double g.stellar_mass_fraction) :
-   hubble_type{g.hubble_type}, redshift{g.redshift}, total_mass{g.total_mass}, stellar_mass_fraction{g.stellar_mass_fraction}
+  galaxy(std::string g_hubble_type , double g_redshift , double g_total_mass , double g_stellar_mass_fraction) :
+   hubble_type{g_hubble_type}, redshift{g_redshift}, total_mass{g_total_mass}, stellar_mass_fraction{g_stellar_mass_fraction}
   {}
   // Destructor
   ~galaxy(){std::cout<<"Destroying "<<hubble_type<<std::endl;}
@@ -43,8 +43,8 @@ public:
 void galaxy::print_data()
 {
   std::cout.precision(3); 
-  std::cout<<"Galaxy: [Hubble type,z,m,f_*] = ["<<g.hubble_type<<","<< g.redshift
-       <<","<<g.total_mass<<","<<g.stellar_mass_fraction<<"]"<<std::endl;
+  std::cout<<"Galaxy: [Hubble type,z,m,f_*] = ["<<hubble_type<<","<< redshift
+       <<","<<total_mass<<","<<stellar_mass_fraction<<"]"<<std::endl;
   return;
 }
 
@@ -59,9 +59,10 @@ int main()
 
   // print out data
   std::vector<galaxy> galaxy_data;
-  // Need to check if next line is correct
-  galaxy_data.push_back(galaxy("g1"));
-  galaxy_data.push_back(galaxy("g2","E2",1.0,2.e8));
+  //galaxy_data.push_back(galaxy("g1"));
+  //galaxy_data.push_back(galaxy("g2","E2",1.0,2.e8));
+  galaxy_data.push_back(g1);
+  galaxy_data.push_back(g2);
 
   for(auto galaxy_it=galaxy_data.begin(); galaxy_it <galaxy_data.end(); ++galaxy_it){
     galaxy_it->print_data();
