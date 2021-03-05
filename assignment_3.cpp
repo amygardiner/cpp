@@ -14,19 +14,20 @@
 class galaxy
 {
 private:
-  std::string hubble_type {"S0"};
-  double redshift {0.0};
-  double total_mass {0.0};
-  double stellar_mass_fraction {0.0};
+  std::string hubble_type;
+  double redshift;
+  double total_mass;
+  double stellar_mass_fraction;
 
 public:
   // Constructors
-  galaxy() = default;
+  galaxy() : hubble_type{"Irr"}, redshift{}, total_mass{}, stellar_mass_fraction{}  {}
 
   galaxy(std::string galaxy_hubble_type , double galaxy_redshift , double galaxy_total_mass , double galaxy_stellar_mass_fraction) :
    hubble_type{galaxy_hubble_type}, redshift{galaxy_redshift}, total_mass{galaxy_total_mass}, stellar_mass_fraction{galaxy_stellar_mass_fraction}
   {}
   // Destructor
+  ~galaxy(){std::cout<<"Destroying "<<hubble_type<<std::endl;}
 
   double stellar_mass() {return stellar_mass_fraction * total_mass;}
 
@@ -54,11 +55,7 @@ int main()
   galaxy g1; 
 
   // Example using parameterised constructor
-  galaxy g2;
-  g2.hubble_type = "E2";
-  g2.redshift = 1.0;
-  g2.total_mass = 2.e8; //Units of Msun
-  g2.stellar_mass_fraction = 0.02;
+  galaxy g2("E2",1.0,3.e8,0.02);
 
   // print out data
   std::vector<galaxy> galaxy_data;
