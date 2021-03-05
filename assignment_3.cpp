@@ -59,8 +59,6 @@ int main()
 
   // print out data
   std::vector<galaxy> galaxy_data;
-  //galaxy_data.push_back(galaxy("g1"));
-  //galaxy_data.push_back(galaxy("g2","E2",1.0,2.e8));
   galaxy_data.push_back(g1);
   galaxy_data.push_back(g2);
 
@@ -72,11 +70,11 @@ int main()
   // Change Hubble type from Irr to S0
   g1.change_type("S0");
   //std::cout<<"Galaxy g1 now has Hubble type: "<<g1.hubble_type()<<std::endl;
-  /*
+  
   for(auto galaxy_it=galaxy_data.begin(); galaxy_it <galaxy_data.end(); ++galaxy_it){
     galaxy_it->print_data();
   }
-  */
+  
   // Add satellite galaxies
 
   return 0;
