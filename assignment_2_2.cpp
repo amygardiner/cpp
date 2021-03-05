@@ -8,7 +8,7 @@
 #include<string>
 #include<vector>
 
-
+// Function to print range
 void print(std::vector<std::string> const &course_titles)
 {
     for (int i = 0; i < course_titles.size(); i++) {
@@ -26,6 +26,7 @@ int main()
 
     std::fstream file1(datafile);
 
+    // Check for file opening
     if(!file1.is_open()){
       std::cerr<<"Error: file could not be opened"<<std::endl;
       return(1);
@@ -33,6 +34,7 @@ int main()
 
     int n_data{0};
 
+    // Counter for lines in the datafile
     while(!file1.eof()){
       n_data++;
       file1.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
@@ -48,7 +50,7 @@ int main()
     std::string course_name;
     const int year_digit{5};
 
-    
+    // Separating the first column of grade data, then using a stringstream to combine "PHYS" with each line of course code and title data
     while (!file1.eof()){ 
         std::string subject{"PHYS"};
         std::stringstream st;
@@ -69,6 +71,8 @@ int main()
     std::cin>>year_choice;
 
     char year;
+
+    // Iterator for courses matching the year digit as specified in line 51, which would also match the user input value
     for(auto iterator = courses.begin(); iterator < courses.end(); ++iterator){
         year = (*iterator)[year_digit];
         if (year == year_choice) 
