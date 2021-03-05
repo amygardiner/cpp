@@ -23,8 +23,8 @@ public:
   // Constructors
   galaxy() : hubble_type{"Irr"}, redshift{}, total_mass{}, stellar_mass_fraction{}  {}
 
-  galaxy(std::string galaxy_hubble_type , double galaxy_redshift , double galaxy_total_mass , double galaxy_stellar_mass_fraction) :
-   hubble_type{galaxy_hubble_type}, redshift{galaxy_redshift}, total_mass{galaxy_total_mass}, stellar_mass_fraction{galaxy_stellar_mass_fraction}
+  galaxy(std::string g.hubble_type , double g.redshift , double g.total_mass , double g.stellar_mass_fraction) :
+   hubble_type{g.hubble_type}, redshift{g.redshift}, total_mass{g.total_mass}, stellar_mass_fraction{g.stellar_mass_fraction}
   {}
   // Destructor
   ~galaxy(){std::cout<<"Destroying "<<hubble_type<<std::endl;}
