@@ -82,8 +82,7 @@ int main()
         file1>>grades[i];
         file1>>course_code[i];
         getline(file1, course_title[i]);
-
-    }
+      }
   file1.close();
 
   double mean{calculate_mean(grades,n_data)};

@@ -62,7 +62,6 @@ int main()
           courses.push_back(st.str());
           st.str("");
         }
-        
     }
 
     file1.close();
