@@ -73,14 +73,21 @@ public:
   // Overload * operator for multiplication, z1*z2
   complex operator*(const complex &c)
   {
-    double real_result = c.get_real()*re 
+    double real_result=c.get_real()*re 
       + (-1)*(c.get_imaginary()*im);
-    double im_result = c.get_real()*im
+    double im_result=c.get_real()*im
       + re*c.get_imaginary();
-    complex res{real_result, im_result};
+    complex res{real_result,im_result};
     return res;
   }
   // Overload / operator for division, z1/z2
+  complex operator/(const complex &c)
+  {
+    double real_result=((c.get_real()*re)+(c.get_imaginary()*(im*-1)))/(pow(re,2)+pow(im,2));
+    double im_result=((c.get_imaginary()*re)+(re*(im*-1)))/(2*im*re);
+    complex res{real_result,im_result};
+    return res;
+  }
 
 };
 
@@ -110,6 +117,7 @@ int main()
   complex e{a+b};
   complex f{b-a};
   complex g{a*b};
+  complex h{a/b};
 
   // Print out results, also demonstrating use of overloaded operator<<
 
