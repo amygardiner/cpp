@@ -1,5 +1,5 @@
 // PHYS 30762 Programming in C++
-// Assignment 5 - skeleton code
+// Assignment 5
 // Amy Gardiner
 
 // Class for complex numbers
