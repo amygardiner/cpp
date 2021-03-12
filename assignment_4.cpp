@@ -40,7 +40,7 @@ public:
     return im;
   }
   // Return modulus
-  void calc_modulus() const
+  double calc_modulus() const
   {
     double mod_1{pow(re,2)};
     double mod_2{pow(im,2)};
@@ -49,7 +49,7 @@ public:
     return pow(mod_3,0.5);
   }
   // Return argument - need to incorporate +pi if second quadrant result, -pi if third quadrant
-  void calc_argument() const
+  double calc_argument() const
   {
     return atan(im/re);
   }
@@ -74,7 +74,7 @@ public:
 
 int main()
 {  
-  cout.precision(3);
+  std::cout.precision(3);
 
   // Create two complex numbers
   complex a{3,4};
