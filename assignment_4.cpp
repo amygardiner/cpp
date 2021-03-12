@@ -52,23 +52,23 @@ public:
   // Return complex conjugate
   double calc_conjugate() const
   {
-    return im*=(-1);
+    return im*(-1);
   }
   // Overload + operator for addition 
   complex operator+(const complex &c)
   {
     double real_result=c.get_real()+re;
     double im_result=c.get_imaginary()+im;
-    complex c{real_result,im_result};
-    return c;
+    complex res{real_result,im_result};
+    return res;
   }
   // Overload - operator for subtraction
   complex operator-(const complex &c)
   {
     double real_result=c.get_real()-re;
     double im_result=c.get_imaginary()-im;
-    complex c{real_result,im_result};
-    return c;
+    complex res{real_result,im_result};
+    return res;
   }
   // Overload * operator for multiplication, z1*z2
   complex operator*(const complex &c)
@@ -77,8 +77,8 @@ public:
       + (-1)*(c.get_imaginary()*im);
     double im_result = c.get_real()*im
       + re*c.get_imaginary();
-    complex c{real_result, im_result};
-    return c;
+    complex res{real_result, im_result};
+    return res;
   }
   // Overload / operator for division, z1/z2
 
