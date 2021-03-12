@@ -57,26 +57,26 @@ public:
   // Overload + operator for addition 
   complex operator+(const complex &c)
   {
-    double real_result=c.get_real()+re.get_real();
-    double im_result=c.get_imaginary()+im.get_imaginary();
+    double real_result=c.get_real()+re;
+    double im_result=c.get_imaginary()+im;
     complex c{real_result,im_result};
     return c;
   }
   // Overload - operator for subtraction
   complex operator-(const complex &c)
   {
-    double real_result=c.get_real()-re.get_real();
-    double im_result=c.get_imaginary()-im.get_imaginary();
+    double real_result=c.get_real()-re;
+    double im_result=c.get_imaginary()-im;
     complex c{real_result,im_result};
     return c;
   }
   // Overload * operator for multiplication, z1*z2
   complex operator*(const complex &c)
   {
-    double real_result = c.get_real()*re.get_real() 
-      + (-1)*(c.get_imaginary()*im.get_imaginary());
-    double im_result = c.get_real()*im.get_imaginary()
-      + re.get_real()*c.get_imaginary();
+    double real_result = c.get_real()*re 
+      + (-1)*(c.get_imaginary()*im);
+    double im_result = c.get_real()*im
+      + re*c.get_imaginary();
     complex c{real_result, im_result};
     return c;
   }
@@ -99,6 +99,10 @@ int main()
   a.get_imaginary();
   b.get_real();
   b.get_imaginary();
+  a.calc_modulus();
+  a.calc_argument();
+  b.calc_modulus();
+  b.calc_argument();
 
   // Get conjugates
 
