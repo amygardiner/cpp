@@ -10,7 +10,7 @@
 class complex
 {
   // Make function to overload operator<< a friend
-  friend ostream & operator<<(ostream &os, const complex &z);
+  friend std::ostream & operator<<(std::ostream &os, const complex &z);
 private:
   double re,im;
 public:
