@@ -1,7 +1,6 @@
 // PHYS 30762 Programming in C++
-// Assignment 5
+// Assignment 4
 // Amy Gardiner
-
 // Class for complex numbers
 
 #include<iostream>
@@ -18,7 +17,6 @@ public:
   complex(){re=im=0;}
   complex(double real_part, double im_part){re=real_part; im=im_part;}
   ~complex(){}
-
   // Return real component
   void set_real(const double real_part) 
   {
@@ -51,18 +49,37 @@ public:
   {
     return atan(im/re);
   }
-
   // Return complex conjugate
-  void calc_conjugate() const
+  double calc_conjugate() const
   {
-    im*=(-1);
+    return im*=(-1);
   }
   // Overload + operator for addition 
-
+  complex operator+(const complex &c)
+  {
+    double real_result=c.get_real()+re.get_real();
+    double im_result=c.get_imaginary()+im.get_imaginary();
+    complex c{real_result,im_result};
+    return c;
+  }
   // Overload - operator for subtraction
-
+  complex operator-(const complex &c)
+  {
+    double real_result=c.get_real()-re.get_real();
+    double im_result=c.get_imaginary()-im.get_imaginary();
+    complex c{real_result,im_result};
+    return c;
+  }
   // Overload * operator for multiplication, z1*z2
-
+  complex operator*(const complex &c)
+  {
+    double real_result = c.get_real()*re.get_real() 
+      + (-1)*(c.get_imaginary()*im.get_imaginary());
+    double im_result = c.get_real()*im.get_imaginary()
+      + re.get_real()*c.get_imaginary();
+    complex c{real_result, im_result};
+    return c;
+  }
   // Overload / operator for division, z1/z2
 
 };
@@ -86,31 +103,10 @@ int main()
   // Get conjugates
 
   // Get sum, difference, product and quotient of a and b
-  double sum(const complex &c1, const complex &c2)
-  {
-    double real_result = c1.get_real()+c2.get_real();
-    double im_result = c1.get_imaginary()+c2.get_imaginary();
-    complex c{real_result, im_result};
-    return c;
-  }
+  complex e{a+b};
+  complex f{b-a};
+  complex g{a*b};
 
-  double difference(const complex &c1, const complex &c2)
-  {
-    double real_result = c2.get_real()-c1.get_real();
-    double im_result = c2.get_imaginary()-c1.get_imaginary();
-    complex c{real_result, im_result};
-    return c;
-  }
-
-  double product(const complex &c1, const complex &c2)
-  {
-    double real_result = c1.get_real()*c2.get_real() 
-      + (-1)*(c1.get_imaginary()*c2.get_imaginary());
-    double im_result = c1.get_real()*c2.get_imaginary()
-      + c2.get_real()*c1.get_imaginary();
-    complex c{real_result, im_result};
-    return c;
-  }
   // Print out results, also demonstrating use of overloaded operator<<
 
   // Show results of overloading arithmetic operators
