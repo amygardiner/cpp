@@ -24,12 +24,10 @@ public:
   {
     re=real_part;
   }
-
   double get_real() const
   {
     return re;
   }
-
   // Return imaginary component
   void set_imaginary(const double im_part) 
   {
@@ -57,8 +55,7 @@ public:
   // Return complex conjugate
   void calc_conjugate() const
   {
-    double conjugate{im*=-1};
-    std::cout<<re<<" "<conjugate<<"i"<<std::endl;
+    im*=(-1);
   }
   // Overload + operator for addition 
 
@@ -81,11 +78,39 @@ int main()
   complex b{1,-2};
 
  // Get real and imaginary components, modulus and argument
+  a.get_real();
+  a.get_imaginary();
+  b.get_real();
+  b.get_imaginary();
 
   // Get conjugates
 
   // Get sum, difference, product and quotient of a and b
+  double sum(const complex &c1, const complex &c2)
+  {
+    double real_result = c1.get_real()+c2.get_real();
+    double im_result = c1.get_imaginary()+c2.get_imaginary();
+    complex c{real_result, im_result};
+    return c;
+  }
 
+  double difference(const complex &c1, const complex &c2)
+  {
+    double real_result = c2.get_real()-c1.get_real();
+    double im_result = c2.get_imaginary()-c1.get_imaginary();
+    complex c{real_result, im_result};
+    return c;
+  }
+
+  double product(const complex &c1, const complex &c2)
+  {
+    double real_result = c1.get_real()*c2.get_real() 
+      + (-1)*(c1.get_imaginary()*c2.get_imaginary());
+    double im_result = c1.get_real()*c2.get_imaginary()
+      + c2.get_real()*c1.get_imaginary();
+    complex c{real_result, im_result};
+    return c;
+  }
   // Print out results, also demonstrating use of overloaded operator<<
 
   // Show results of overloading arithmetic operators
