@@ -20,15 +20,46 @@ public:
   ~complex(){}
 
   // Return real component
+  void set_real(const double real_part) 
+  {
+    re=real_part;
+  }
+
+  double get_real() const
+  {
+    return re;
+  }
 
   // Return imaginary component
-
+  void set_imaginary(const double im_part) 
+  {
+    im=im_part;
+  }
+  double get_imaginary() const
+  {
+    return im;
+  }
   // Return modulus
+  void calc_modulus() const
+  {
+    double mod_1{pow(re,2)};
+    double mod_2{pow(im,2)};
+    double mod_3{mod_1+mod_2};
 
-  // Return argument
+    return pow(mod_3,0.5);
+  }
+  // Return argument - need to incorporate +pi if second quadrant result, -pi if third quadrant
+  void calc_argument() const
+  {
+    return atan(im/re);
+  }
 
   // Return complex conjugate
-
+  void calc_conjugate() const
+  {
+    double conjugate{im*=-1};
+    std::cout<<re<<" "<conjugate<<"i"<<std::endl;
+  }
   // Overload + operator for addition 
 
   // Overload - operator for subtraction
