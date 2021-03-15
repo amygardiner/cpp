@@ -83,8 +83,8 @@ public:
   // Overload / operator for division, z1/z2
   complex operator/(const complex &c)
   {
-    double real_result=((c.get_real()*re)+(c.get_imaginary()*(im*-1)))/(pow(re,2)+pow(im,2));
-    double im_result=((c.get_imaginary()*re)+(re*(im*-1)))/(2*im*re);
+    double real_result=((c.get_real()*re)+(c.get_imaginary()*im))/(pow(c.get_real(),2)+pow(c.get_imaginary(),2));
+    double im_result=((c.get_imaginary()*re*-1)+(im*c.get_real()))/(pow(c.get_real(),2)+pow(c.get_imaginary(),2));
     complex res{real_result,im_result};
     return res;
   }
