@@ -65,8 +65,8 @@ public:
   // Overload - operator for subtraction
   complex operator-(const complex &c)
   {
-    double real_result=c.get_real()-re;
-    double im_result=c.get_imaginary()-im;
+    double real_result=re-c.get_real();
+    double im_result=im-c.get_imaginary();
     complex res{real_result,im_result};
     return res;
   }
@@ -87,6 +87,11 @@ public:
     double im_result=((c.get_imaginary()*re)+(re*(im*-1)))/(2*im*re);
     complex res{real_result,im_result};
     return res;
+  }
+
+  void show() const 
+  {
+    std::cout<<"("<<re<<" + "<<im<<"i"<<")"<<std::endl;
   }
 
 };
@@ -112,6 +117,8 @@ int main()
   b.calc_argument();
 
   // Get conjugates
+  a.calc_conjugate();
+  b.calc_conjugate();
 
   // Get sum, difference, product and quotient of a and b
   complex e{a+b};
@@ -120,8 +127,14 @@ int main()
   complex h{a/b};
 
   // Print out results, also demonstrating use of overloaded operator<<
-
-  // Show results of overloading arithmetic operators
+  std::cout<<"The sum of a and b is: ";
+  e.show();
+  std::cout<<"The difference between a and b is: ";
+  f.show();
+  std::cout<<"The product of a and b is: ";
+  g.show();
+  std::cout<<"The quotient of a and b is: ";
+  h.show();
 
   return 0;
 }
