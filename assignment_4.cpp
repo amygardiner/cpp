@@ -9,7 +9,7 @@
 class complex
 {
   // Make function to overload operator<< a friend
-  friend std::ostream & operator<<(std::ostream &os, const complex &z);
+  friend std::ostream & operator<<(std::ostream &os, const complex &c);
 private:
   double re,im;
 public:
@@ -89,14 +89,16 @@ public:
     return res;
   }
 
-  void show() const 
-  {
-    std::cout<<"("<<re<<" + "<<im<<"i"<<")"<<std::endl;
-  }
-
 };
 
 // Function to overload << operator for complex numbers
+std::ostream& operator<< (std::ostream &os, const complex &c)
+{
+    // Since operator<< is a friend of the complex class, we can access complex's members directly.
+    os<<"("<<c.re<<" + "<<c.im<<"i"<<")"; 
+ 
+    return os; 
+}
 
 int main()
 {  
@@ -127,14 +129,10 @@ int main()
   complex h{a/b};
 
   // Print out results, also demonstrating use of overloaded operator<<
-  std::cout<<"The sum of a and b is: ";
-  e.show();
-  std::cout<<"The difference between a and b is: ";
-  f.show();
-  std::cout<<"The product of a and b is: ";
-  g.show();
-  std::cout<<"The quotient of a and b is: ";
-  h.show();
-
+  std::cout<<"The sum of a and b is: "<<e<<std::endl;
+  std::cout<<"The difference between a and b is: "<<f<<std::endl;
+  std::cout<<"The product of a and b is: "<<g<<std::endl;
+  std::cout<<"The quotient of a and b is: "<<h<<std::endl;
+  
   return 0;
 }
