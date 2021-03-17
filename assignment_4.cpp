@@ -97,8 +97,12 @@ public:
 // Function to overload << operator for complex numbers
 std::ostream& operator<< (std::ostream &os, const complex &c)
 {
-    // Since operator<< is a friend of the complex class, we can access complex's members directly.
-    os<<"("<<c.re<<" + "<<c.im<<"i"<<")"; 
+    if (c.neg=='-'){
+      os<<"("<<c.re<<c.im<<"i"<<")"; 
+    }
+    else {
+      os<<"("<<c.re<<"+"<<c.im<<"i"<<")"; 
+    } 
  
     return os; 
 }
