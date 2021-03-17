@@ -10,6 +10,8 @@ class complex
 {
   // Make function to overload operator<< a friend
   friend std::ostream & operator<<(std::ostream &os, const complex &c);
+  //Function for overloading >> also a friend
+  friend std::istream& operator>> (std::istream &in, complex &c);
 private:
   double re,im;
 public:
@@ -100,6 +102,16 @@ std::ostream& operator<< (std::ostream &os, const complex &c)
     return os; 
 }
 
+// Function to overload >> operator for complex number input
+std::istream& operator>> (std::istream &in, complex &c)
+{
+    in >> c.re;
+    std::cin.ignore(2);
+    in >> c.im;
+ 
+    return in;
+}
+
 int main()
 {  
   std::cout.precision(3);
@@ -133,6 +145,12 @@ int main()
   std::cout<<"The difference between a and b is: "<<f<<std::endl;
   std::cout<<"The product of a and b is: "<<g<<std::endl;
   std::cout<<"The quotient of a and b is: "<<h<<std::endl;
+
+  std::cout<<"Enter a complex number in the form a+ib: "<<std::endl;
+
+  complex complex_input{};
+  std::cin>>complex_input;
+  std::cout<<"You entered: "<<complex_input<<std::endl;
   
   return 0;
 }
