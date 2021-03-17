@@ -91,7 +91,6 @@ public:
     complex res{real_result,im_result};
     return res;
   }
-
 };
 
 // Function to overload << operator for complex numbers
@@ -103,7 +102,6 @@ std::ostream& operator<< (std::ostream &os, const complex &c)
     else {
       os<<"("<<c.re<<"+"<<c.im<<"i"<<")"; 
     } 
- 
     return os; 
 }
 
