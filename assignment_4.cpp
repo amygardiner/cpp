@@ -14,6 +14,7 @@ class complex
   friend std::istream& operator>> (std::istream &in, complex &c);
 private:
   double re,im;
+  char neg;
 public:
   // Constructors & destructor
   complex(){re=im=0;}
@@ -105,9 +106,14 @@ std::ostream& operator<< (std::ostream &os, const complex &c)
 // Function to overload >> operator for complex number input
 std::istream& operator>> (std::istream &in, complex &c)
 {
-    in >> c.re;
-    std::cin.ignore(2);
-    in >> c.im;
+    in>>c.re;
+    in>>c.neg;
+    std::cin.ignore();
+    in>>c.im;
+
+    if (c.neg=='-'){
+      c.im=-1*c.im;
+    }
  
     return in;
 }
