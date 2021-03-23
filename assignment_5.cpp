@@ -13,7 +13,6 @@ class matrix
     int columns;
     double* data;
   public:
-    //matrix(double matrix_data, double no_rows, double no_columns)
     matrix(double no_rows, double no_columns)
     {
         rows=no_rows; 
