@@ -17,7 +17,7 @@ class matrix
     {
         rows=no_rows; 
         columns=no_columns;
-        data=new double[(rows+1)+(columns+1)];
+        data=new double[(rows+1)*(columns+1)];
     }
     ~matrix()
     { 
