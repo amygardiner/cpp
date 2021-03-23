@@ -35,6 +35,5 @@ matrix::matrix(size_t no_rows, size_t no_columns)
 int main()
 { 
     matrix a{3,4};
-    matrix b{3,4};
     return 0;
 }
