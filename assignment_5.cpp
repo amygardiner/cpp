@@ -21,7 +21,7 @@ class matrix
     }
     size_t length() const 
     {
-        return (rows+1)*(columns+1);
+        return rows*columns;
     }
     matrix(matrix&);
     matrix& operator=(matrix&);
@@ -66,7 +66,7 @@ matrix::matrix(size_t no_rows, size_t no_columns)
     }
     rows=no_rows;
     columns=no_columns;
-    size_t length=(rows+1)*(columns+1);
+    size_t length=rows*columns;
     array=new double[length];
     for(size_t i{};i<length;i++) array[i]=1;
 }
@@ -83,5 +83,11 @@ double & matrix::operator[](size_t i)
 int main()
 { 
     matrix a{3,4};
+    matrix b{6,7};
+    std::cout<<"Length of a = "<<a.length()<<std::endl;
+    std::cout<<"Length of b = "<<b.length()<<std::endl;
+    std::cout<<"Copying values from a to b by assignment"<<std::endl;
+    b=a;
+    std::cout<<"Length of b is now = "<<b.length()<<std::endl;
     return 0;
 }
