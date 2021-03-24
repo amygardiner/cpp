@@ -23,8 +23,10 @@ class matrix
     {
         return rows*columns;
     }
-    matrix(matrix&);
-    matrix& operator=(matrix&);
+    matrix(matrix&); //copy
+    matrix& operator=(matrix&); //copy assignment
+    matrix(matrix&&); //move
+    matrix& operator=(matrix&&); //move assignment
     double & operator[](size_t i);
     // Overload + operator for matrix addition
     matrix operator+(const matrix &m) const 
@@ -41,7 +43,7 @@ class matrix
         return new_mat;
 	}
 };
-// Copy constructor for deep copying
+// Copy constructor
 matrix::matrix(matrix &arr)
 {
   // Copy size and declare new array
@@ -50,15 +52,13 @@ matrix::matrix(matrix &arr)
   if(size>0)
     {
       array=new double[size];
-      // Copy values into new array
       for(size_t i{};i<size;i++) array[i] = arr[i];
     }
 }
-// Assignment operator for deep copying
+// Copy assignment operator
 matrix & matrix::operator=(matrix &arr)
 {
   if(&arr == this) return *this; 
-  // First delete this object's array
   delete[] array; 
   array=nullptr; 
   size=0;
@@ -68,6 +68,23 @@ matrix & matrix::operator=(matrix &arr)
       array=new double[size];
       for(size_t i{};i<size;i++) array[i] = arr[i];
     }
+  return *this;
+}
+// Move constructor
+matrix::matrix(matrix &&arr)
+{ // steal the data
+  std::cout <<"move constructor\n";
+  size=arr.size;
+  array=arr.array;
+  arr.size=0;
+  arr.array=nullptr;
+}
+// Move assignment operator
+matrix & matrix::operator=(matrix&& arr)
+{
+  std::cout <<"Move assignment\n";
+  std::swap(size,arr.size);
+  std::swap(array,arr.array);
   return *this;
 }
 // Parameterised constructor
@@ -104,5 +121,7 @@ int main()
     b=a;
     std::cout<<"Length of b is now = "<<b.length()<<std::endl;
     matrix c{a+b};
+    matrix d{3,4};
+    d=std::move(a);
     return 0;
 }
