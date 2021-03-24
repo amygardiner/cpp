@@ -40,6 +40,22 @@ matrix::matrix(matrix &arr)
       for(size_t i{};i<size;i++) array[i] = arr[i];
     }
 }
+// Assignment operator for deep copying
+matrix & matrix::operator=(matrix &arr)
+{
+  if(&arr == this) return *this; 
+  // First delete this object's array
+  delete[] array; 
+  array=nullptr; 
+  size=0;
+  size=arr.length();
+  if(size>0)
+    {
+      array=new double[size];
+      for(size_t i{};i<size;i++) array[i] = arr[i];
+    }
+  return *this;
+}
 // Parameterised constructor
 matrix::matrix(size_t no_rows, size_t no_columns)
 {
