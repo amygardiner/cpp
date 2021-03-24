@@ -26,6 +26,20 @@ class matrix
     matrix(matrix&);
     matrix& operator=(matrix&);
     double & operator[](size_t i);
+    // Overload + operator for matrix addition
+    matrix operator+(const matrix &m) const 
+    {
+	if (rows != m.rows || columns != m.columns) {
+		std::cout<<"Dimensions don't match!"<<std::endl;
+	}
+	else {
+        matrix new_mat(rows,columns);
+        for (int i = 0; i < size; i++) {
+            new_mat.array[i] = array[i] + m.array[i];
+            }
+        }
+        return new_mat;
+	}
 };
 // Copy constructor for deep copying
 matrix::matrix(matrix &arr)
@@ -89,5 +103,6 @@ int main()
     std::cout<<"Copying values from a to b by assignment"<<std::endl;
     b=a;
     std::cout<<"Length of b is now = "<<b.length()<<std::endl;
+    matrix c{a+b};
     return 0;
 }
