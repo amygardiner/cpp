@@ -64,9 +64,23 @@ class matrix
     {
         return array[loc(m,n)];
     } 
-    matrix operator+(const matrix &mat);
-    matrix operator-(const matrix &mat);
-    matrix operator*(const matrix &mat);
+    matrix operator-(const matrix &arr);
+    matrix operator*(const matrix &arr);
+    // Addition of matrices
+    matrix operator+(matrix &arr)
+    {
+    if(rows==arr.getrows() && columns==arr.getcols())
+    {
+        matrix temp(rows,columns);
+        for(int i{1};i<=rows;i++)
+          for(int j{1};j<=columns;j++)
+            temp.setval(i,j,(arr[loc(i,j)]+arr.getval(i,j)));
+        return temp;
+    } else {
+        std::cout<<"Error: addition not possible"<<std::endl; 
+        exit(1);
+    }
+    }
 };
 // Copy constructor
 matrix::matrix(matrix &arr)
@@ -110,7 +124,6 @@ matrix & matrix::operator=(matrix &arr)
 // Move constructor
 matrix::matrix(matrix &&arr)
 { 
-  std::cout <<"move constructor\n";
   size=arr.size;
   array=arr.array;
   arr.size=0;
@@ -164,6 +177,7 @@ double & matrix::operator[](size_t i)
     }
   return array[i];
 } 
+
 int main()
 { 
     matrix a{2,2};
@@ -182,5 +196,7 @@ int main()
     std::cout<<"Moving values from a to c"<<std::endl;
     c=std::move(a);
     std::cout<<"Matrix c is now: "<<std::endl<<c<<std::endl;
+    matrix d{b+c};
+    std::cout<<d;
     return 0;
 }
