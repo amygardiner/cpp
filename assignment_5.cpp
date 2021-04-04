@@ -27,7 +27,6 @@ class matrix
     {
         return rows*columns;
     }
-    double & operator[](size_t i);
     // Copy and copy assignment
     matrix(matrix&);
     matrix& operator=(matrix&);
@@ -64,20 +63,51 @@ class matrix
     {
         return array[loc(m,n)];
     } 
-    matrix operator-(const matrix &arr);
-    matrix operator*(const matrix &arr);
-    // Addition of matrices
-    matrix operator+(matrix &arr)
+    // Overload addition operator
+    matrix operator+(const matrix &arr)
     {
     if(rows==arr.getrows() && columns==arr.getcols())
     {
         matrix temp(rows,columns);
         for(int i{1};i<=rows;i++)
           for(int j{1};j<=columns;j++)
-            temp.setval(i,j,(arr[loc(i,j)]+arr.getval(i,j)));
+            temp.setval(i,j,(array[loc(i,j)]+arr.getval(i,j)));
         return temp;
     } else {
         std::cout<<"Error: addition not possible"<<std::endl; 
+        exit(1);
+    }
+    }
+    // Overload subtraction operator
+    matrix operator-(const matrix &arr)
+    {
+    if(rows==arr.getrows() && columns==arr.getcols())
+    {
+        matrix temp(rows,columns);
+        for(int i{1};i<=rows;i++)
+          for(int j{1};j<=columns;j++)
+            temp.setval(i,j,(array[loc(i,j)]-arr.getval(i,j)));
+        return temp;
+    } else {
+        std::cout<<"Error: subtraction not possible"<<std::endl; 
+        exit(1);
+    }
+    }
+    // Overload multiplication operation
+    matrix operator*(const matrix &arr)
+    {
+    if(columns==arr.getrows())
+    {
+        matrix temp(rows,arr.getcols());
+        for(int i{1};i<=rows;i++)
+          for(int j{1};j<=arr.getcols();j++){
+              double sum{0};
+              for(int k{1};k<=columns;k++) sum+=array[loc(i,k)]*arr.getval(i,k); 
+              temp.setval(i,j,sum);
+          }
+        return temp;
+    } else {
+        std::cout<<"Error: multiplication not possible"<<std::endl; 
         exit(1);
     }
     }
@@ -150,7 +180,6 @@ matrix::matrix(int no_rows, int no_columns)
         columns=no_columns;
         size_t length=rows*columns;
         array=new double[length];
-        for(size_t i{};i<length;i++) array[i]=0;
     }
 }
 //Overload << for matrices
@@ -167,36 +196,29 @@ std::ostream & operator<<(std::ostream &os, const matrix &arr)
     }
   return os;
 }
-// Overloaded element [] operator implementation
-double & matrix::operator[](size_t i)
-{
-  if(i<0 || i>=size)
-    {
-      std::cout<<"Error: trying to access array element out of bounds"<<std::endl;
-      throw("Out of Bounds error");
-    }
-  return array[i];
-} 
-
 int main()
 { 
     matrix a{2,2};
-    std::cout<<"Matrix a is: "<<std::endl<<a<<std::endl;
     matrix b{2,2};
+    matrix c{2,2};
     b.setval(1,1,1);
     b.setval(1,2,2);
     b.setval(2,1,3);
     b.setval(2,2,4);
+    std::cout<<"Matrix a is: "<<std::endl<<a<<std::endl;
     std::cout<<"Matrix b is: "<<std::endl<<b<<std::endl;
     std::cout<<"Copying values from b to a by assignment"<<std::endl;
     a=b;
+    c=std::move(a);
+    matrix d{b+c};
+    matrix e{b-c};
+    matrix f{b*c};
     std::cout<<"Matrix a is now: "<<std::endl<<a<<std::endl;
-    matrix c{2,2};
     std::cout<<"Matrix c is empty: "<<std::endl<<c<<std::endl;
     std::cout<<"Moving values from a to c"<<std::endl;
-    c=std::move(a);
     std::cout<<"Matrix c is now: "<<std::endl<<c<<std::endl;
-    matrix d{b+c};
-    std::cout<<d;
+    std::cout<<"b + c is: "<<std::endl<<d<<std::endl;
+    std::cout<<"b - c is: "<<std::endl<<e<<std::endl;
+    std::cout<<"b * c is: "<<std::endl<<f<<std::endl;
     return 0;
 }
