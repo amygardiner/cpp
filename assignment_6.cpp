@@ -24,6 +24,29 @@ public:
     }
     friend std::ostream& operator<<(std::ostream&, const shape&); 
 };
+
+class rectangle: public shape
+{
+protected:
+    double length;
+    double width;
+public:
+    rectangle() : shape{}, length{}, width{} {}
+    rectangle(const std::string nm, const double l, const double w) : shape{nm}, length{l}, width{w} {}
+    ~rectangle(){}
+    double area() const
+    {
+        return length*width;
+    }
+    friend std::ostream& operator<<(std::ostream&, const rectangle&);
+};
+
+std::ostream& operator<<(std::ostream& o, const rectangle& re)
+{
+    o<<"Area of rectangle = "<<re.area()<<std::endl;
+    return o;
+}
+
 std::ostream& operator<<(std::ostream& o, const shape& sh)
 {
     o<<"Shape: "<<sh.name<<std::endl;
@@ -31,7 +54,7 @@ std::ostream& operator<<(std::ostream& o, const shape& sh)
 }
 int main() 
 {
-    shape rect{"rectangle"};
-    std::cout<<rect;
+    rectangle rect1{"rectangle1", 2, 3};
+    std::cout<<rect1;
     return 0;
 }
