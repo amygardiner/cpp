@@ -17,7 +17,7 @@ public:
     // Parameterised constructor
     shape(const std::string nm) : name{nm} {}
     // Destructor
-    ~shape(){}
+    virtual ~shape(){}
     virtual void info()
     {
         std::cout<<name<<std::endl;
