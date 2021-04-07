@@ -1,7 +1,7 @@
 // PHYS 30762 Programming in C++
 // Project
 // Amy Gardiner 10137582
-// An experimental data management system - Using a hypothetical radioactive spectrum to determine its source strength.
+// An experimental data management system - Using measurements from a hypothetical radioactive spectrum to determine its source strength.
 
 #include<iostream>
 #include<fstream>
@@ -43,8 +43,7 @@ public:
     double count_error{sqrt(count_rate)};
     void info()
     {
-        std::cout<<"Count rate "<<name<<" = "<<count_rate<<" +- "<<count_error<<std::endl;
-        std::cout<<"(Measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        std::cout<<"Count rate "<<name<<" = "<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
     }
 };
 
@@ -73,4 +72,3 @@ int main()
     */
    return 0;
 }
- 
