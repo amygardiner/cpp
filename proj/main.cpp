@@ -6,6 +6,8 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include<sstream>
+#include<vector>
 #include<cmath> 
 #include<math.h> 
 
@@ -55,8 +57,27 @@ class systematic: public measurement
 
 int main()
 {
+    // Using stringstreams with user input to create the count rate names as required with the base class parameterised constructor
+    std::vector<std::string> rate_1;
+    std::vector<std::string> rate_2;
+    std::string rate_prefix{"R_"};
+    std::string rate_input_1{};
+    std::string rate_input_2{};
+    std::cout<<"Which count rate does this first data belong to? Enter 511 or sum: ";
+    std::cin>>rate_input_1;
+    std::cout<<"Which count rate does this second data belong to? Enter 511 or sum: ";
+    std::cin>>rate_input_2;
+    std::stringstream st_1;
+    std::stringstream st_2;
+    st_1<<rate_prefix<<rate_input_1;
+    st_2<<rate_prefix<<rate_input_2;
+    rate_1.push_back(st_1.str());
+    rate_2.push_back(st_2.str());
+    st_1.str("");
+    st_2.str("");
+
     measurement *count_rates[1];
-    count_rates[0]=new value{"R_511",7,12,2020,6564.55};
+    count_rates[0]=new value{st_1.str(),7,12,2020,6564.55};
     count_rates[1]=new value{"R_sum",7,12,2020,28.34};
     count_rates[0]->info();
     delete count_rates[0];
