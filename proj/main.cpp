@@ -85,7 +85,6 @@ int main()
     count_rates[1]->info();
     delete count_rates[1];
     count_rates[1]=0;
-
     /*
     std::ofstream outfile("results.txt");
     outfile<<"format results here"<<std::endl;
