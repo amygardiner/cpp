@@ -73,12 +73,12 @@ int main()
     st_2<<rate_prefix<<rate_input_2;
     rate_1.push_back(st_1.str());
     rate_2.push_back(st_2.str());
-    st_1.str("");
-    st_2.str("");
+    std::string s_1 = st_1.str();
+    std::string s_2 = st_2.str();
 
     measurement *count_rates[1];
-    count_rates[0]=new value{st_1.str(),7,12,2020,6564.55};
-    count_rates[1]=new value{"R_sum",7,12,2020,28.34};
+    count_rates[0]=new value{s_1,7,12,2020,6564.55};
+    count_rates[1]=new value{s_2,7,12,2020,28.34};
     count_rates[0]->info();
     delete count_rates[0];
     count_rates[0]=0;
