@@ -3,11 +3,13 @@
 // Amy Gardiner 10137582
 // An experimental data management system - Using measurements from a hypothetical radioactive spectrum to determine its source strength.
 
+#include<iomanip>
 #include<iostream>
 #include<fstream>
 #include<string>
 #include<sstream>
 #include<vector>
+#include<limits>
 #include<cmath> 
 #include<math.h> 
 
@@ -57,6 +59,17 @@ class systematic: public measurement
 
 int main()
 {
+    // User input for the timestamp
+    int day_input;
+    int month_input;
+    int year_input;
+    std::cout<<"Enter the date of the measurements in the format DD MM YYYY: "<<std::endl;
+    std::cin>>day_input;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+    std::cin>>month_input;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+    std::cin>>year_input;
+    
     // Using stringstreams with user input to create the count rate names as required with the base class parameterised constructor
     std::vector<std::string> rate_1;
     std::vector<std::string> rate_2;
@@ -77,8 +90,8 @@ int main()
     std::string s_2 = st_2.str();
 
     measurement *count_rates[1];
-    count_rates[0]=new value{s_1,7,12,2020,6564.55};
-    count_rates[1]=new value{s_2,7,12,2020,28.34};
+    count_rates[0]=new value{s_1,day_input,month_input,year_input,6564.55};
+    count_rates[1]=new value{s_2,day_input,month_input,year_input,28.34};
     count_rates[0]->info();
     delete count_rates[0];
     count_rates[0]=0;
