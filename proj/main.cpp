@@ -47,7 +47,7 @@ public:
     double count_error{sqrt(count_rate)};
     void info()
     {
-        std::cout<<"Count rate "<<name<<" = "<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        std::cout<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
     }
 };
 
@@ -59,6 +59,7 @@ class systematic: public measurement
 
 int main()
 {
+    while (true){
     // User input for the timestamp
     int day_input;
     int month_input;
@@ -69,6 +70,13 @@ int main()
     std::cin>>month_input;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
     std::cin>>year_input;
+
+    if (std::cin.fail()){
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        std::cout<<"Invalid input. Try again. "<<std::endl;
+        continue;
+    }
     
     // Using stringstreams with user input to create the count rate names as required with the base class parameterised constructor
     std::vector<std::string> rate_1;
@@ -103,5 +111,17 @@ int main()
     outfile<<"format results here"<<std::endl;
     outfile.close();
     */
-   return 0;
+
+    char choice;
+    std::cout<<"Would you like to enter another set of measurements? Type any key for yes, or N to quit: ";
+    std::cin>>choice;
+
+    if (choice=='n'||choice=='N'){
+        break;
+    } else{
+        continue;
+    }
+    }
+
+    return 0;
 }
