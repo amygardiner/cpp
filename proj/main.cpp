@@ -12,6 +12,7 @@
 #include<limits>
 #include<cmath> 
 #include<math.h> 
+#include <cstdlib> 
 
 // Base class for measurement
 class measurement
@@ -77,6 +78,13 @@ int main()
         std::cout<<"Invalid input. Try again. "<<std::endl;
         continue;
     }
+
+    if (day_input<=0 || day_input>31 || month_input<=0 || month_input>12 || year_input<1900 || year_input>2021){
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        std::cout<<"Invalid date input. Try again. "<<std::endl;
+        continue;
+    }
     
     // Using stringstreams with user input to create the count rate names as required with the base class parameterised constructor
     std::vector<std::string> rate_1;
@@ -111,16 +119,14 @@ int main()
     outfile<<"format results here"<<std::endl;
     outfile.close();
     */
-
+    
     char choice;
-    std::cout<<"Would you like to enter another set of measurements? Type any key for yes, or N to quit: ";
+    std::cout<<"Enter more measurements? Any key for yes, N for no: "<<std::endl;
     std::cin>>choice;
 
     if (choice=='n'||choice=='N'){
-        break;
-    } else{
-        continue;
-    }
+        exit(1);
+    } 
     }
 
     return 0;
