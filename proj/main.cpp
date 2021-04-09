@@ -62,66 +62,47 @@ class systematic: public measurement
 void day_check(int day_input)
 {
     if (day_input<=0 || day_input>31)
-        throw std::runtime_error("The day is not correct.");
+        throw std::out_of_range("The day is not correct.");
 }
 void month_check(int month_input)
 {
     if (month_input<=0 || month_input>12)
-        throw std::runtime_error("The month is not correct.");
+        throw std::out_of_range("The month is not correct.");
 }
 void year_check(int year_input)
 {
     if (year_input<=1900 || year_input>2021)
-        throw std::runtime_error("The year is not correct.");
+        throw std::out_of_range("The year is not correct.");
 }
 
 int main()
 {
-    // User input for the timestamp
     int day_input;
     int month_input;
     int year_input;
-    std::cout<<"Enter the date of the measurements in the format DD MM YYYY: "<<std::endl;
-    std::cin>>day_input;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
-    std::cin>>month_input;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
-    std::cin>>year_input;
+
+    try
+    {
+        std::cout<<"Enter the date of the measurements in the format DD MM YYYY: "<<std::endl;
+        std::cin>>day_input;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+        std::cin>>month_input;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+        std::cin>>year_input;
+        day_check(day_input);
+        month_check(month_input);
+        year_check(year_input);
+    }
+    catch (std::out_of_range& e)
+    {
+        std::cerr<<e.what()<<std::endl;
+        return -1;
+    }
 
     if (std::cin.fail()){
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
         std::cout<<"Invalid input. Try again. "<<std::endl;
-        return -1;
-    }
-
-    try
-    {
-        day_check(day_input);
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cerr<<e.what()<<std::endl;
-        return -1;
-    }
-
-    try
-    {
-        month_check(month_input);
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cerr<<e.what()<<std::endl;
-        return -1;
-    }
-
-    try
-    {
-        year_check(year_input);
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cerr<<e.what()<<std::endl;
         return -1;
     }
     
