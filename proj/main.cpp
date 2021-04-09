@@ -4,6 +4,7 @@
 // An experimental data management system - Using measurements from a hypothetical radioactive spectrum to determine its source strength.
 
 #include<iomanip>
+#include <stdexcept>
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -58,9 +59,24 @@ class systematic: public measurement
 
 };
 
+void day_check(int day_input)
+{
+    if (day_input<=0 || day_input>31)
+        throw std::runtime_error("The day is not correct.");
+}
+void month_check(int month_input)
+{
+    if (month_input<=0 || month_input>12)
+        throw std::runtime_error("The month is not correct.");
+}
+void year_check(int year_input)
+{
+    if (year_input<=1900 || year_input>2021)
+        throw std::runtime_error("The year is not correct.");
+}
+
 int main()
 {
-    while (true){
     // User input for the timestamp
     int day_input;
     int month_input;
@@ -76,14 +92,37 @@ int main()
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
         std::cout<<"Invalid input. Try again. "<<std::endl;
-        continue;
+        return -1;
     }
 
-    if (day_input<=0 || day_input>31 || month_input<=0 || month_input>12 || year_input<1900 || year_input>2021){
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-        std::cout<<"Invalid date input. Try again. "<<std::endl;
-        continue;
+    try
+    {
+        day_check(day_input);
+    }
+    catch (std::runtime_error& e)
+    {
+        std::cerr<<e.what()<<std::endl;
+        return -1;
+    }
+
+    try
+    {
+        month_check(month_input);
+    }
+    catch (std::runtime_error& e)
+    {
+        std::cerr<<e.what()<<std::endl;
+        return -1;
+    }
+
+    try
+    {
+        year_check(year_input);
+    }
+    catch (std::runtime_error& e)
+    {
+        std::cerr<<e.what()<<std::endl;
+        return -1;
     }
     
     // Using stringstreams with user input to create the count rate names as required with the base class parameterised constructor
@@ -119,15 +158,6 @@ int main()
     outfile<<"format results here"<<std::endl;
     outfile.close();
     */
-    
-    char choice;
-    std::cout<<"Enter more measurements? Any key for yes, N for no: "<<std::endl;
-    std::cin>>choice;
-
-    if (choice=='n'||choice=='N'){
-        exit(1);
-    } 
-    }
 
     return 0;
 }
