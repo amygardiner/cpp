@@ -150,15 +150,15 @@ public:
     }
 };
 
-class prism: public shape
+class prism: public rectangle
 {
 protected:
     double depth;
 public:
-    rectangle rect2{"Rectangle",2,3};
-    prism(const shape *shape_pointer, const double d) : rectangle{&rect2}, depth{d} {}
+    rectangle rect{"Rectangle",2,3};
+    prism(const std::string nm, const double l, const double w, const double d) : rectangle{nm,l,w}, depth{d} {}
     ~prism(){}
-    double volume{rect2.area*depth};
+    double volume{rect.area*depth};
     void info()
     {
         std::cout<<name<<" has volume ="<<volume<<std::endl;
