@@ -66,7 +66,7 @@ int main()
     std::string energy_2{};
     double rate_value_1{};
     double rate_value_2{};
-    std::cout<<"Which count rate does this first data entry belong to? Enter 511 or sum: ";
+    std::cout<<"Which count rate energy does this first data entry belong to? Enter 511 or 1275: "<<std::endl;
     std::cin>>energy_1;
     std::stringstream st_1;
     st_1<<rate_prefix<<energy_1;
@@ -76,7 +76,7 @@ int main()
     std::cin>>rate_value_1;
     measurement* first=new value{s_1,day_input,month_input,year_input,rate_value_1};
     first -> save_results();
-    std::cout<<"Which count rate does this second data entry belong to? Enter 511 or sum: ";
+    std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
     std::cin>>energy_2;
     std::stringstream st_2;
     st_2<<rate_prefix<<energy_2;
