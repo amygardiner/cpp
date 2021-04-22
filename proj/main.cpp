@@ -27,8 +27,12 @@ public:
     measurement(const std::string nm) : name{nm} {}
     // Destructor
     virtual ~measurement(){}
-    // Virtual pure function to override
-    virtual void info()=0;
+    // Virtual function to write textfile with results
+    virtual void save_results() 
+    { 
+        std::ofstream outfile ("Results.txt");
+        outfile.close();
+    }
 };
 
 // Derived class for the measurement value 
@@ -47,9 +51,13 @@ public:
     // Destructor
     ~value(){}
     double count_error{sqrt(count_rate)};
-    void info()
-    {
-        std::cout<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+    //virtual void save_results() 
+    void save_results() 
+    { 
+        std::ofstream outfile;
+        outfile.open("Results.txt", std::ios_base::out | std::ios_base::app);
+        outfile << "Count rate "<< name <<" = "<<std::setprecision(4)<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        outfile.close();
     }
 };
 
@@ -62,6 +70,7 @@ class systematic: public measurement
 int main()
 {
     while(true){
+    char choice;
     int day_input;
     int month_input;
     int year_input;
@@ -79,7 +88,6 @@ int main()
         std::cout<<"The day is incorrect."<<std::endl;
         continue;
     }
-    
 
     if (std::cin.fail()){
         std::cin.clear();
@@ -96,34 +104,30 @@ int main()
     std::string rate_input_2{};
     std::cout<<"Which count rate does this first data belong to? Enter 511 or sum: ";
     std::cin>>rate_input_1;
+    std::stringstream st_1;
+    st_1<<rate_prefix<<rate_input_1;
+    rate_1.push_back(st_1.str());
+    std::string s_1 = st_1.str();
+    measurement* first=new value{s_1,day_input,month_input,year_input,6564.55};
+    first -> save_results();
     std::cout<<"Which count rate does this second data belong to? Enter 511 or sum: ";
     std::cin>>rate_input_2;
-    std::stringstream st_1;
     std::stringstream st_2;
-    st_1<<rate_prefix<<rate_input_1;
     st_2<<rate_prefix<<rate_input_2;
-    rate_1.push_back(st_1.str());
     rate_2.push_back(st_2.str());
-    std::string s_1 = st_1.str();
     std::string s_2 = st_2.str();
-    rate_1.clear();
-    rate_2.clear();
+    measurement* second= new value{s_2,day_input,month_input,year_input,28.34};
+    second -> save_results();
 
-    measurement *count_rates[1];
-    count_rates[0]=new value{s_1,day_input,month_input,year_input,6564.55};
-    count_rates[1]=new value{s_2,day_input,month_input,year_input,28.34};
-    count_rates[0]->info();
-    delete count_rates[0];
-    count_rates[0]=0;
-    count_rates[1]->info();
-    delete count_rates[1];
-    count_rates[1]=0;
-    /*
-    std::ofstream outfile("results.txt");
-    outfile<<"format results here"<<std::endl;
-    outfile.close();
-    */
+    delete first;
+    delete second;
+
+    std::cout<<"Quit program? Press Y: "<<std::endl;
+    std::cin>>choice;
+
+    if (choice=='y'||choice=='Y'){
+        break;
     }
-
+    }
     return 0;
 }
