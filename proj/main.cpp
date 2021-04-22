@@ -4,7 +4,7 @@
 // An experimental data management system - Using measurements from a hypothetical radioactive spectrum to determine its source strength.
 
 #include<iomanip>
-#include <stdexcept>
+#include<stdexcept>
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -13,7 +13,7 @@
 #include<limits>
 #include<cmath> 
 #include<math.h> 
-#include <cstdlib> 
+#include<cstdlib> 
 
 // Base class for measurement
 class measurement
@@ -59,15 +59,9 @@ class systematic: public measurement
 
 };
 
-int at(int day_input) {
-  if(day_input<=0 || day_input>31)
-    throw std::out_of_range("The day is not correct.");
-
-  return day_input;
-}
-
 int main()
 {
+    while(true){
     int day_input;
     int month_input;
     int year_input;
@@ -80,7 +74,11 @@ int main()
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
     std::cin>>year_input;
-    at(day_input);
+
+    if(day_input<=0 || day_input>31){
+        std::cout<<"The day is incorrect."<<std::endl;
+        continue;
+    }
     
 
     if (std::cin.fail()){
@@ -108,6 +106,8 @@ int main()
     rate_2.push_back(st_2.str());
     std::string s_1 = st_1.str();
     std::string s_2 = st_2.str();
+    rate_1.clear();
+    rate_2.clear();
 
     measurement *count_rates[1];
     count_rates[0]=new value{s_1,day_input,month_input,year_input,6564.55};
@@ -123,6 +123,7 @@ int main()
     outfile<<"format results here"<<std::endl;
     outfile.close();
     */
+    }
 
     return 0;
 }
