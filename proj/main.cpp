@@ -17,7 +17,6 @@
 
 #include"measurement.h"
 #include"value.h"
-#include"systematic.h"
 
 int main()
 {
@@ -95,9 +94,12 @@ int main()
         outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
         std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
         std::cin>>rate_value_sum;
+        measurement* third= new value{"R_sum",day_input,month_input,year_input,rate_value_sum};
+        third -> save_results();
         double strength{(efficiency*pow(rate_value_2,2))/2*rate_value_sum};
         outfile<<"The source strength from this spectra is: "<<strength<<std::endl;
         outfile.close();
+        delete third;
     }
 
     if(energy_1=="511" && energy_2=="1275")
@@ -108,9 +110,12 @@ int main()
         outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
         std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
         std::cin>>rate_value_sum;
+        measurement* third= new value{"R_sum",day_input,month_input,year_input,rate_value_sum};
+        third -> save_results();
         double strength{(efficiency*pow(rate_value_1,2))/2*rate_value_sum};
         outfile<<"The source strength from this spectra is: "<<strength<<std::endl;
         outfile.close();
+        delete third;
     }
 
     delete first;
