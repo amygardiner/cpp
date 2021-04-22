@@ -33,6 +33,7 @@ int main()
     std::string energy_2{};
     double rate_value_1{};
     double rate_value_2{};
+    double rate_value_sum{};
     std::stringstream st_1;
     std::stringstream st_2;
 
@@ -92,6 +93,10 @@ int main()
         std::ofstream outfile;
         outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
         outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
+        std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
+        std::cin>>rate_value_sum;
+        double strength{(efficiency*pow(rate_value_2,2))/2*rate_value_sum};
+        outfile<<"The source strength from this spectra is: "<<strength<<std::endl;
         outfile.close();
     }
 
@@ -101,6 +106,10 @@ int main()
         std::ofstream outfile;
         outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
         outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
+        std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
+        std::cin>>rate_value_sum;
+        double strength{(efficiency*pow(rate_value_1,2))/2*rate_value_sum};
+        outfile<<"The source strength from this spectra is: "<<strength<<std::endl;
         outfile.close();
     }
 
