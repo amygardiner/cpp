@@ -85,6 +85,24 @@ int main()
     std::cin>>rate_value_2;
     measurement* second= new value{s_2,day_input,month_input,year_input,rate_value_2};
     second -> save_results();
+    
+    if(energy_1=="1275" && energy_2=="511")
+    {
+        double efficiency{2*rate_value_1/rate_value_2};
+        std::ofstream outfile;
+        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+        outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
+        outfile.close();
+    }
+
+    if(energy_1=="511" && energy_2=="1275")
+    {
+        double efficiency{2*rate_value_2/rate_value_1};
+        std::ofstream outfile;
+        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+        outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
+        outfile.close();
+    }
 
     delete first;
     delete second;
