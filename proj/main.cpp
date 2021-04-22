@@ -15,14 +15,9 @@
 #include<math.h> 
 #include<cstdlib> 
 
-#include "measurement.h"
-#include "value.h"
-
-// Derived class for the systematic error
-class systematic: public measurement
-{
-
-};
+#include"measurement.h"
+#include"value.h"
+#include"systematic.h"
 
 int main()
 {
