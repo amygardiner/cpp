@@ -26,6 +26,15 @@ int main()
     int day_input;
     int month_input;
     int year_input;
+    std::vector<std::string> rate_1;
+    std::vector<std::string> rate_2;
+    std::string rate_prefix{"R_"};
+    std::string energy_1{};
+    std::string energy_2{};
+    double rate_value_1{};
+    double rate_value_2{};
+    std::stringstream st_1;
+    std::stringstream st_2;
 
     std::cout<<"Enter the date of the measurements in the format DD MM YYYY: "<<std::endl;
     std::cin>>day_input;
@@ -57,18 +66,9 @@ int main()
         std::cout<<"Invalid input. Try again. "<<std::endl;
         continue;
     }
-    
-    // Using stringstreams with user input to create the count rate names as required with the base class parameterised constructor
-    std::vector<std::string> rate_1;
-    std::vector<std::string> rate_2;
-    std::string rate_prefix{"R_"};
-    std::string energy_1{};
-    std::string energy_2{};
-    double rate_value_1{};
-    double rate_value_2{};
+
     std::cout<<"Which count rate energy does this first data entry belong to? Enter 511 or 1275: "<<std::endl;
     std::cin>>energy_1;
-    std::stringstream st_1;
     st_1<<rate_prefix<<energy_1;
     rate_1.push_back(st_1.str());
     std::string s_1 = st_1.str();
@@ -78,7 +78,6 @@ int main()
     first -> save_results();
     std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
     std::cin>>energy_2;
-    std::stringstream st_2;
     st_2<<rate_prefix<<energy_2;
     rate_2.push_back(st_2.str());
     std::string s_2 = st_2.str();
