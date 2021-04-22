@@ -55,8 +55,8 @@ public:
     void save_results() 
     { 
         std::ofstream outfile;
-        outfile.open("Results.txt", std::ios_base::out | std::ios_base::app);
-        outfile << "Count rate "<< name <<" = "<<std::setprecision(4)<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+        outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
         outfile.close();
     }
 };
@@ -89,11 +89,21 @@ int main()
         continue;
     }
 
+    if(month_input<=0 || month_input>12){
+        std::cout<<"The month is incorrect."<<std::endl;
+        continue;
+    }
+
+    if(year_input<=0 || year_input>2021){
+        std::cout<<"The year is incorrect."<<std::endl;
+        continue;
+    }
+
     if (std::cin.fail()){
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
         std::cout<<"Invalid input. Try again. "<<std::endl;
-        return -1;
+        continue;
     }
     
     // Using stringstreams with user input to create the count rate names as required with the base class parameterised constructor
@@ -122,10 +132,10 @@ int main()
     delete first;
     delete second;
 
-    std::cout<<"Quit program? Press Y: "<<std::endl;
+    std::cout<<"Enter more measurements? Enter any key to continue, or N to quit: "<<std::endl;
     std::cin>>choice;
 
-    if (choice=='y'||choice=='Y'){
+    if (choice=='n'||choice=='N'){
         break;
     }
     }
