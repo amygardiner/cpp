@@ -4,7 +4,6 @@
 // Derived class for the systematic error
 class systematic: public measurement
 {
-
 };
 
 #endif

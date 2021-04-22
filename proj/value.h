@@ -17,7 +17,6 @@ public:
     // Destructor
     ~value(){}
     double count_error{sqrt(count_rate)};
-    //virtual void save_results() 
     void save_results() 
     { 
         std::ofstream outfile;
