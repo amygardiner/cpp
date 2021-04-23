@@ -19,12 +19,9 @@
 #include"value.h"
 
 template <class c_type>
-    void is_in_bounds(const c_type value, const c_type low, const c_type high) 
+    bool is_in_bounds(const c_type value, const c_type low, const c_type high)
 {
-    if(!(value < low) && !(high < value))
-    {
-        std::cout<<"The timestamp is incorrect."<<std::endl;
-    }
+    return !(value < low) && !(high < value); 
 }
 
 int main()
@@ -54,26 +51,10 @@ int main()
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
     std::cin>>year_input;
 
-    is_in_bounds<int>(day_input,1,31);
-    is_in_bounds<int>(month_input,1,12);
-    is_in_bounds<int>(year_input,1,2021);
-
-    /*
-    if(day_input<=0 || day_input>31){
-        std::cout<<"The day is incorrect."<<std::endl;
+    if(is_in_bounds<int>(day_input,1,31)==false || is_in_bounds<int>(month_input,1,12)==false || is_in_bounds<int>(year_input,1,2021)==false){
+        std::cout<<"The timestamp is incorrect."<<std::endl;
         continue;
     }
-
-    if(month_input<=0 || month_input>12){
-        std::cout<<"The month is incorrect."<<std::endl;
-        continue;
-    }
-
-    if(year_input<=0 || year_input>2021){
-        std::cout<<"The year is incorrect."<<std::endl;
-        continue;
-    }
-    */
 
     if (std::cin.fail()){
         std::cin.clear();
