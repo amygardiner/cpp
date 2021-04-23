@@ -18,6 +18,15 @@
 #include"measurement.h"
 #include"value.h"
 
+template <class c_type>
+    void is_in_bounds(const c_type value, const c_type low, const c_type high) 
+{
+    if(!(value < low) && !(high < value))
+    {
+        std::cout<<"The timestamp is incorrect."<<std::endl;
+    }
+}
+
 int main()
 {
     while(true){
@@ -45,6 +54,11 @@ int main()
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
     std::cin>>year_input;
 
+    is_in_bounds<int>(day_input,1,31);
+    is_in_bounds<int>(month_input,1,12);
+    is_in_bounds<int>(year_input,1,2021);
+
+    /*
     if(day_input<=0 || day_input>31){
         std::cout<<"The day is incorrect."<<std::endl;
         continue;
@@ -59,6 +73,7 @@ int main()
         std::cout<<"The year is incorrect."<<std::endl;
         continue;
     }
+    */
 
     if (std::cin.fail()){
         std::cin.clear();
