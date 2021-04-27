@@ -1,7 +1,7 @@
 // PHYS 30762 Programming in C++
 // Project
 // Amy Gardiner 10137582
-// An experimental data management system - Using measurements from a hypothetical radioactive spectrum to determine its source strength.
+// An experimental data management system - Using measurements from a hypothetical Na22 spectrum to determine its source strength.
 
 #include<iomanip>
 #include<stdexcept>
@@ -20,9 +20,32 @@
 
 template <class c_type>
     bool is_in_bounds(const c_type value, const c_type low, const c_type high)
-{
-    return !(value < low) && !(high < value); 
-}
+    { 
+        return !(value < low) && !(high < value); 
+    }
+
+template <class c_type>
+    bool order(const std::string e1, const std::string e2)
+    {
+        return (e1=="1275") && (e2=="511");
+    }
+
+template <class c_type>
+    void calculations(const double a, const double b, double rate_value_sum, const int day_input, const int month_input, const int year_input)
+    {
+        double efficiency{2*a/b};
+        std::ofstream outfile;
+        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+        outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
+        std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
+        std::cin>>rate_value_sum;
+        measurement* third= new value{"R_sum",day_input,month_input,year_input,rate_value_sum};
+        third -> save_results();
+        double strength{(efficiency*pow(b,2))/2*rate_value_sum};
+        outfile<<"The source strength from this spectra is: "<<strength<<std::endl;
+        outfile.close();
+        delete third;
+    }
 
 int main()
 {
@@ -81,37 +104,15 @@ int main()
     std::cin>>rate_value_2;
     measurement* second= new value{s_2,day_input,month_input,year_input,rate_value_2};
     second -> save_results();
-    
-    if(energy_1=="1275" && energy_2=="511")
+
+    if(order<int>(energy_1, energy_2)==true)
     {
-        double efficiency{2*rate_value_1/rate_value_2};
-        std::ofstream outfile;
-        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-        outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
-        std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
-        std::cin>>rate_value_sum;
-        measurement* third= new value{"R_sum",day_input,month_input,year_input,rate_value_sum};
-        third -> save_results();
-        double strength{(efficiency*pow(rate_value_2,2))/2*rate_value_sum};
-        outfile<<"The source strength from this spectra is: "<<strength<<std::endl;
-        outfile.close();
-        delete third;
+        calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day_input, month_input, year_input);
     }
 
-    if(energy_1=="511" && energy_2=="1275")
+    if(order<int>(energy_1, energy_2)==false)
     {
-        double efficiency{2*rate_value_2/rate_value_1};
-        std::ofstream outfile;
-        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-        outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
-        std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
-        std::cin>>rate_value_sum;
-        measurement* third= new value{"R_sum",day_input,month_input,year_input,rate_value_sum};
-        third -> save_results();
-        double strength{(efficiency*pow(rate_value_1,2))/2*rate_value_sum};
-        outfile<<"The source strength from this spectra is: "<<strength<<std::endl;
-        outfile.close();
-        delete third;
+        calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day_input, month_input, year_input);
     }
 
     delete first;
