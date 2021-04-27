@@ -18,19 +18,19 @@
 #include"measurement.h"
 #include"value.h"
 
-template <class c_type>
-    bool is_in_bounds(const c_type value, const c_type low, const c_type high)
+template <typename T>
+    bool is_in_bounds(const T value, const T low, const T high)
     { 
         return !(value < low) && !(high < value); 
     }
 
-template <class c_type>
+template <typename T>
     bool order(const std::string e1, const std::string e2)
     {
         return (e1=="1275") && (e2=="511");
     }
 
-template <class c_type>
+template <typename T>
     void calculations(const double a, const double b, double rate_value_sum, const int day_input, const int month_input, const int year_input)
     {
         double efficiency{2*a/b};
