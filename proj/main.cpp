@@ -53,14 +53,7 @@ int main()
         continue;
     }
 
-    if (std::cin.fail()){
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-        std::cout<<"Invalid input. Try again. "<<std::endl;
-        continue;
-    }
-
-    std::cout<<"Enter the nuclear source used - Na, Co or Cs:"<<std::endl;
+    std::cout<<"Enter the nuclear source used - Na or Co:"<<std::endl;
     std::cin>>source_input;
 
     if(source_input=="Na")
