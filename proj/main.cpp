@@ -26,6 +26,7 @@ int main()
     int day_input;
     int month_input;
     int year_input;
+    std::string source_input{};
     std::vector<std::string> rate_1;
     std::vector<std::string> rate_2;
     std::string rate_prefix{"R_"};
@@ -58,42 +59,45 @@ int main()
         continue;
     }
 
-    // all of this is unique to the sodium class so i need to change this
-    std::ofstream outfile;
-    outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-    outfile<<"Source: Na22"<<std::endl;
-    outfile.close();
-    std::cout<<"Which count rate energy does this first data entry belong to? Enter 511 or 1275: "<<std::endl;
-    std::cin>>energy_1;
-    st_1<<rate_prefix<<energy_1;
-    rate_1.push_back(st_1.str());
-    std::string s_1 = st_1.str();
-    std::cout<<"Please enter this count rate value: "<<std::endl;
-    std::cin>>rate_value_1;
-    measurement* first=new sodium{s_1,day_input,month_input,year_input,rate_value_1};
-    first -> save_results();
-    std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
-    std::cin>>energy_2;
-    st_2<<rate_prefix<<energy_2;
-    rate_2.push_back(st_2.str());
-    std::string s_2 = st_2.str();
-    std::cout<<"Please enter this count rate value: "<<std::endl;
-    std::cin>>rate_value_2;
-    measurement* second= new sodium{s_2,day_input,month_input,year_input,rate_value_2};
-    second -> save_results();
+    std::cout<<"Enter the nuclear source used - Na, Co or Cs:"<<std::endl;
+    std::cin>>source_input;
 
-    if(sodium_order<int>(energy_1, energy_2)==true)
+    if(source_input=="Na")
     {
+        sodium a{};
+        a.type();
+
+        std::cout<<"Which count rate energy does this first data entry belong to? Enter 511 or 1275: "<<std::endl;
+        std::cin>>energy_1;
+        st_1<<rate_prefix<<energy_1;
+        rate_1.push_back(st_1.str());
+        std::string s_1 = st_1.str();
+        std::cout<<"Please enter this count rate value: "<<std::endl;
+        std::cin>>rate_value_1;
+        measurement* first=new sodium{s_1,day_input,month_input,year_input,rate_value_1};
+        first -> save_results();
+        std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
+        std::cin>>energy_2;
+        st_2<<rate_prefix<<energy_2;
+        rate_2.push_back(st_2.str());
+        std::string s_2 = st_2.str();
+        std::cout<<"Please enter this count rate value: "<<std::endl;
+        std::cin>>rate_value_2;
+        measurement* second= new sodium{s_2,day_input,month_input,year_input,rate_value_2};
+        second -> save_results();
+
+        if(sodium_order<int>(energy_1, energy_2)==true)
+        {
         sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day_input, month_input, year_input);
-    }
+        }
 
-    if(sodium_order<int>(energy_1, energy_2)==false)
-    {
+        if(sodium_order<int>(energy_1, energy_2)==false)
+        {
         sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day_input, month_input, year_input);
+        }
+        delete first;
+        delete second;
     }
-
-    delete first;
-    delete second;
 
     std::cout<<"Enter more measurements? Enter any key to continue, or N to quit: "<<std::endl;
     std::cin>>choice;

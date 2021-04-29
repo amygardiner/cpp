@@ -13,6 +13,7 @@ public:
     measurement(const std::string nm) : name{nm} {}
     // Destructor
     virtual ~measurement(){}
+    virtual void type()=0;
     // Virtual function to write textfile with results
     virtual void save_results() 
     { 

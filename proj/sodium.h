@@ -1,6 +1,15 @@
 #ifndef sodium_H
 #define sodium_H
 
+#include<iomanip>
+#include<stdexcept>
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<sstream>
+#include<vector>
+#include<limits>
+
 // Derived class for the sodium source
 class sodium: public measurement
 {
@@ -17,6 +26,13 @@ public:
     // Destructor
     ~sodium(){}
     double count_error{sqrt(count_rate)};
+    void type()
+    {
+        std::ofstream outfile;
+        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+        outfile<<"Source: Na22"<<std::endl;
+        outfile.close();
+    }
     void save_results() 
     { 
         std::ofstream outfile;
