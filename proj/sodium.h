@@ -1,8 +1,8 @@
-#ifndef VALUE_H
-#define VALUE_H
+#ifndef sodium_H
+#define sodium_H
 
-// Derived class for the measurement value 
-class value: public measurement
+// Derived class for the sodium source
+class sodium: public measurement
 {
 protected:
     int day;
@@ -11,11 +11,11 @@ protected:
     double count_rate;
 public:
     // Default constructor
-    value() : measurement{}, day{}, month{}, year{}, count_rate{} {}
+    sodium() : measurement{}, day{}, month{}, year{}, count_rate{} {}
     // Parameterised constructor 
-    value(const std::string nm, const int d, const int m, const int y, const double cr) : measurement{nm}, day{d}, month{m}, year{y}, count_rate{cr} {}
+    sodium(const std::string nm, const int d, const int m, const int y, const double cr) : measurement{nm}, day{d}, month{m}, year{y}, count_rate{cr} {}
     // Destructor
-    ~value(){}
+    ~sodium(){}
     double count_error{sqrt(count_rate)};
     void save_results() 
     { 

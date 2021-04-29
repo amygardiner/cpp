@@ -16,7 +16,7 @@
 #include<cstdlib> 
 
 #include"measurement.h"
-#include"value.h"
+#include"sodium.h"
 #include"templates.h"
 
 int main()
@@ -58,6 +58,11 @@ int main()
         continue;
     }
 
+    // all of this is unique to the sodium class so i need to change this
+    std::ofstream outfile;
+    outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+    outfile<<"Source: Na22"<<std::endl;
+    outfile.close();
     std::cout<<"Which count rate energy does this first data entry belong to? Enter 511 or 1275: "<<std::endl;
     std::cin>>energy_1;
     st_1<<rate_prefix<<energy_1;
@@ -65,7 +70,7 @@ int main()
     std::string s_1 = st_1.str();
     std::cout<<"Please enter this count rate value: "<<std::endl;
     std::cin>>rate_value_1;
-    measurement* first=new value{s_1,day_input,month_input,year_input,rate_value_1};
+    measurement* first=new sodium{s_1,day_input,month_input,year_input,rate_value_1};
     first -> save_results();
     std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
     std::cin>>energy_2;
@@ -74,17 +79,17 @@ int main()
     std::string s_2 = st_2.str();
     std::cout<<"Please enter this count rate value: "<<std::endl;
     std::cin>>rate_value_2;
-    measurement* second= new value{s_2,day_input,month_input,year_input,rate_value_2};
+    measurement* second= new sodium{s_2,day_input,month_input,year_input,rate_value_2};
     second -> save_results();
 
-    if(order<int>(energy_1, energy_2)==true)
+    if(sodium_order<int>(energy_1, energy_2)==true)
     {
-        calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day_input, month_input, year_input);
+        sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day_input, month_input, year_input);
     }
 
-    if(order<int>(energy_1, energy_2)==false)
+    if(sodium_order<int>(energy_1, energy_2)==false)
     {
-        calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day_input, month_input, year_input);
+        sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day_input, month_input, year_input);
     }
 
     delete first;
