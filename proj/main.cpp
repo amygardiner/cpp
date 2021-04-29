@@ -17,6 +17,7 @@
 
 #include"measurement.h"
 #include"sodium.h"
+#include"cobalt.h"
 #include"templates.h"
 
 int main()
@@ -97,6 +98,12 @@ int main()
         }
         delete first;
         delete second;
+    }
+
+    if(source_input=="Co")
+    {
+        cobalt a{};
+        a.type();
     }
 
     std::cout<<"Enter more measurements? Enter any key to continue, or N to quit: "<<std::endl;
