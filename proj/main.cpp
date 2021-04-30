@@ -18,6 +18,7 @@
 #include"sodium.h"
 #include"cobalt.h"
 #include"templates.h"
+#include "date.h"
 
 std::vector<int> date_input()
 {
@@ -44,7 +45,6 @@ int main()
 {
     while(true){
     char choice;
-    
     std::string source_input{};
     std::vector<std::string> rate_1;
     std::vector<std::string> rate_2;
@@ -56,6 +56,13 @@ int main()
     double rate_value_sum{};
     std::stringstream st_1;
     std::stringstream st_2;
+
+    using namespace date;
+    using namespace std::chrono;
+    std::ofstream outfile;
+    outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+    outfile<<"Document created at: "<<system_clock::now()<<std::endl;
+    outfile.close();
 
     std::vector<int> myvec = date_input();
     int day=myvec[0];
