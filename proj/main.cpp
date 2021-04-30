@@ -4,7 +4,6 @@
 // An experimental data management system - Using measurements from a hypothetical Na22 spectrum to determine its source strength.
 
 #include<iomanip>
-#include<stdexcept>
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -13,20 +12,39 @@
 #include<limits>
 #include<cmath> 
 #include<math.h> 
-#include<cstdlib> 
+#include<cstdlib>
 
 #include"measurement.h"
 #include"sodium.h"
 #include"cobalt.h"
 #include"templates.h"
 
+std::vector<int> date_input()
+{
+    int day_input;
+    int month_input;
+    int year_input;
+    std::vector<int> date_vector;
+    std::cout<<"Enter the date of the measurements in the format DD MM YYYY: "<<std::endl;
+    std::cin>>day_input;
+    date_vector.push_back(day_input);
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+    std::cin>>month_input;
+    date_vector.push_back(month_input);
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+    std::cin>>year_input;
+    date_vector.push_back(year_input);
+
+    return date_vector;
+}
+
 int main()
 {
     while(true){
     char choice;
-    int day_input;
-    int month_input;
-    int year_input;
+    
     std::string source_input{};
     std::vector<std::string> rate_1;
     std::vector<std::string> rate_2;
@@ -39,16 +57,12 @@ int main()
     std::stringstream st_1;
     std::stringstream st_2;
 
-    std::cout<<"Enter the date of the measurements in the format DD MM YYYY: "<<std::endl;
-    std::cin>>day_input;
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
-    std::cin>>month_input;
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
-    std::cin>>year_input;
-
-    if(is_in_bounds<int>(day_input,1,31)==false || is_in_bounds<int>(month_input,1,12)==false || is_in_bounds<int>(year_input,1,2021)==false){
+    std::vector<int> myvec = date_input();
+    int day=myvec[0];
+    int month=myvec[1];
+    int year=myvec[2];
+    
+    if(is_in_bounds<int>(day,1,31)==false || is_in_bounds<int>(month,1,12)==false || is_in_bounds<int>(year,1,2021)==false){
         std::cout<<"The timestamp is incorrect."<<std::endl;
         continue;
     }
@@ -68,7 +82,7 @@ int main()
         std::string s_1 = st_1.str();
         std::cout<<"Please enter this count rate value: "<<std::endl;
         std::cin>>rate_value_1;
-        measurement* first=new sodium{s_1,day_input,month_input,year_input,rate_value_1};
+        measurement* first=new sodium{s_1,day,month,year,rate_value_1};
         first -> save_results();
         std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
         std::cin>>energy_2;
@@ -77,17 +91,17 @@ int main()
         std::string s_2 = st_2.str();
         std::cout<<"Please enter this count rate value: "<<std::endl;
         std::cin>>rate_value_2;
-        measurement* second= new sodium{s_2,day_input,month_input,year_input,rate_value_2};
+        measurement* second= new sodium{s_2,day,month,year,rate_value_2};
         second -> save_results();
 
         if(sodium_order<int>(energy_1, energy_2)==true)
         {
-        sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day_input, month_input, year_input);
+        sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day, month, year);
         }
 
         if(sodium_order<int>(energy_1, energy_2)==false)
         {
-        sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day_input, month_input, year_input);
+        sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day, month, year);
         }
         delete first;
         delete second;
