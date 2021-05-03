@@ -13,12 +13,13 @@
 #include<cmath> 
 #include<math.h> 
 #include<cstdlib>
+#include<memory>
 
 #include"measurement.h"
 #include"sodium.h"
 #include"cobalt.h"
 #include"templates.h"
-#include "date.h"
+#include"date.h"
 
 std::vector<int> date_input()
 {
@@ -43,6 +44,21 @@ std::vector<int> date_input()
 
 int main()
 {
+    // Using the 'date' library and code for conversions sourced at https://howardhinnant.github.io/date/date.html for current time
+    using namespace date;
+    using namespace std::chrono;
+    auto tp=system_clock::now();
+    const auto tpm=floor<minutes>(tp);
+    const auto dp=floor<days>(tpm);
+    const auto ymd=year_month_day{dp};
+    auto time=make_time(tpm-dp);
+
+    // Writes this current time to the text file
+    std::ofstream outfile;
+    outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+    outfile<<"Document created: "<<ymd<<" "<<time<<std::endl;
+    outfile.close();
+
     while(true){
     char choice;
     std::string source_input{};
@@ -57,18 +73,12 @@ int main()
     std::stringstream st_1;
     std::stringstream st_2;
 
-    using namespace date;
-    using namespace std::chrono;
-    std::ofstream outfile;
-    outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-    outfile<<"Document created at: "<<system_clock::now()<<std::endl;
-    outfile.close();
-
-    std::vector<int> myvec = date_input();
+    std::vector<int> myvec=date_input();
     int day=myvec[0];
     int month=myvec[1];
     int year=myvec[2];
-    
+
+    // Error checking for the user-input datestamp
     if(is_in_bounds<int>(day,1,31)==false || is_in_bounds<int>(month,1,12)==false || is_in_bounds<int>(year,1,2021)==false){
         std::cout<<"The timestamp is incorrect."<<std::endl;
         continue;
@@ -79,6 +89,7 @@ int main()
 
     if(source_input=="Na")
     {
+        // Sodium instance created so that it's type is printed in the text file
         sodium a{};
         a.type();
 
@@ -89,8 +100,8 @@ int main()
         std::string s_1 = st_1.str();
         std::cout<<"Please enter this count rate value: "<<std::endl;
         std::cin>>rate_value_1;
-        measurement* first=new sodium{s_1,day,month,year,rate_value_1};
-        first -> save_results();
+        std::unique_ptr<sodium> first(new sodium(s_1,day,month,year,rate_value_1));
+        first->save_results();
         std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
         std::cin>>energy_2;
         st_2<<rate_prefix<<energy_2;
@@ -98,8 +109,8 @@ int main()
         std::string s_2 = st_2.str();
         std::cout<<"Please enter this count rate value: "<<std::endl;
         std::cin>>rate_value_2;
-        measurement* second= new sodium{s_2,day,month,year,rate_value_2};
-        second -> save_results();
+        std::unique_ptr<sodium> second(new sodium(s_2,day,month,year,rate_value_2));
+        second->save_results();
 
         if(sodium_order<int>(energy_1, energy_2)==true)
         {
@@ -110,8 +121,6 @@ int main()
         {
         sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day, month, year);
         }
-        delete first;
-        delete second;
     }
 
     if(source_input=="Co")
