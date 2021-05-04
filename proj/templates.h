@@ -19,10 +19,9 @@ template <typename T>
         outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
         std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
         std::cin>>rate_value_sum;
-        measurement* third= new sodium{"R_sum",day,month,year,rate_value_sum};
+        std::unique_ptr<sodium> third(new sodium("R_sum",day,month,year,rate_value_sum));
         third -> save_results();
         double strength{(efficiency*pow(b,2))/2*rate_value_sum};
-        outfile<<"The source strength from this spectra is: "<<strength<<std::endl;
+        outfile<<"The source strength from this spectra is: "<<strength<<" s^-1"<<std::endl;
         outfile.close();
-        delete third;
     }

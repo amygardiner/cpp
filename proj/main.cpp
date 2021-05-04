@@ -87,46 +87,77 @@ int main()
     std::cout<<"Enter the nuclear source used - Na or Co:"<<std::endl;
     std::cin>>source_input;
 
-    if(source_input=="Na")
+    if(source_input=="Na"||source_input=="na")
     {
-        // Sodium instance created so that it's type is printed in the text file
+        // Sodium instance created (default constructor) so that it's type is printed in the text file
         sodium a{};
         a.type();
 
+        while(true){
         std::cout<<"Which count rate energy does this first data entry belong to? Enter 511 or 1275: "<<std::endl;
+        std::cin>>energy_1;
+        if(energy_1=="511"||energy_1=="1275")
+        {
+            st_1<<rate_prefix<<energy_1;
+            rate_1.push_back(st_1.str());
+            std::string s_1 = st_1.str();
+            std::cout<<"Please enter this count rate value: "<<std::endl;
+            std::cin>>rate_value_1;
+            std::unique_ptr<sodium> first(new sodium(s_1,day,month,year,rate_value_1));
+            first->save_results();
+            while(true){
+            std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
+            std::cin>>energy_2;
+            if(energy_2=="511"||energy_2=="1275")
+            {
+                st_2<<rate_prefix<<energy_2;
+                rate_2.push_back(st_2.str());
+                std::string s_2 = st_2.str();
+                std::cout<<"Please enter this count rate value: "<<std::endl;
+                std::cin>>rate_value_2;
+                std::unique_ptr<sodium> second(new sodium(s_2,day,month,year,rate_value_2));
+                second->save_results();
+
+                if(sodium_order<int>(energy_1, energy_2)==true)
+                {
+                sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day, month, year);
+                }
+
+                if(sodium_order<int>(energy_1, energy_2)==false)
+                {
+                sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day, month, year);
+                }
+                break;
+                } else
+                {
+                std::cout<<"This energy doesn't fit the requirement."<<std::endl;
+                continue;
+            }
+            }
+            break;
+        } else
+        {
+            std::cout<<"This energy doesn't fit the requirement."<<std::endl;
+            continue;
+        }
+        }
+    }
+
+    if(source_input=="Co"||source_input=="co")
+    {
+        cobalt a{};
+        a.type();
+
+        std::cout<<"Which count rate energy does this data entry belong to? Enter 1173 or 1332: "<<std::endl;
         std::cin>>energy_1;
         st_1<<rate_prefix<<energy_1;
         rate_1.push_back(st_1.str());
         std::string s_1 = st_1.str();
         std::cout<<"Please enter this count rate value: "<<std::endl;
         std::cin>>rate_value_1;
-        std::unique_ptr<sodium> first(new sodium(s_1,day,month,year,rate_value_1));
+        std::unique_ptr<cobalt> first(new cobalt(s_1,day,month,year,rate_value_1));
         first->save_results();
-        std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
-        std::cin>>energy_2;
-        st_2<<rate_prefix<<energy_2;
-        rate_2.push_back(st_2.str());
-        std::string s_2 = st_2.str();
-        std::cout<<"Please enter this count rate value: "<<std::endl;
-        std::cin>>rate_value_2;
-        std::unique_ptr<sodium> second(new sodium(s_2,day,month,year,rate_value_2));
-        second->save_results();
-
-        if(sodium_order<int>(energy_1, energy_2)==true)
-        {
-        sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day, month, year);
-        }
-
-        if(sodium_order<int>(energy_1, energy_2)==false)
-        {
-        sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day, month, year);
-        }
-    }
-
-    if(source_input=="Co")
-    {
-        cobalt a{};
-        a.type();
+        first->calc();
     }
 
     std::cout<<"Enter more measurements? Enter any key to continue, or N to quit: "<<std::endl;

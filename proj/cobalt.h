@@ -18,6 +18,9 @@ protected:
     int month;
     int year;
     double count_rate;
+    double efficiency;
+    double solid_angle;
+    double strength;
 public:
     // Default constructor
     cobalt() : measurement{}, day{}, month{}, year{}, count_rate{} {}
@@ -39,6 +42,19 @@ public:
         outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
         outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
         outfile.close();
+    }
+    void calc()
+    {
+        std::cout<<"Please enter the efficiency of the detector at this energy: "<<std::endl;
+        std::cin>>efficiency;
+        std::cout<<"Please enter the solid angle of the detector (<4pi)"<<std::endl;
+        std::cin>>solid_angle;
+        strength=count_rate/(solid_angle*efficiency);
+        std::ofstream outfile;
+        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+        outfile<<"The source strength from this spectra is: "<<std::setprecision(4)<<strength<<" s^-1"<<std::endl;
+        outfile.close();
+
     }
 };
 
