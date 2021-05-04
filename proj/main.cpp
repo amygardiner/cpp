@@ -38,7 +38,6 @@ std::vector<int> date_input()
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
     std::cin>>year_input;
     date_vector.push_back(year_input);
-
     return date_vector;
 }
 
@@ -147,17 +146,26 @@ int main()
     {
         cobalt a{};
         a.type();
-
+        while(true){
         std::cout<<"Which count rate energy does this data entry belong to? Enter 1173 or 1332: "<<std::endl;
         std::cin>>energy_1;
-        st_1<<rate_prefix<<energy_1;
-        rate_1.push_back(st_1.str());
-        std::string s_1 = st_1.str();
-        std::cout<<"Please enter this count rate value: "<<std::endl;
-        std::cin>>rate_value_1;
-        std::unique_ptr<cobalt> first(new cobalt(s_1,day,month,year,rate_value_1));
-        first->save_results();
-        first->calc();
+        if(energy_1=="1173"||energy_1=="1332")
+        {
+            st_1<<rate_prefix<<energy_1;
+            rate_1.push_back(st_1.str());
+            std::string s_1 = st_1.str();
+            std::cout<<"Please enter this count rate value: "<<std::endl;
+            std::cin>>rate_value_1;
+            std::unique_ptr<cobalt> first(new cobalt(s_1,day,month,year,rate_value_1));
+            first->save_results();
+            first->calc();
+        break;
+        } else
+        {
+            std::cout<<"This energy doesn't fit the requirement."<<std::endl;
+            continue;
+        }
+        }
     }
 
     std::cout<<"Enter more measurements? Enter any key to continue, or N to quit: "<<std::endl;
