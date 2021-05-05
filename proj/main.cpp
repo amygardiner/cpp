@@ -1,7 +1,7 @@
 // PHYS 30762 Programming in C++
 // Project
 // Amy Gardiner 10137582
-// An experimental data management system - Using measurements from a hypothetical Na22 spectrum to determine its source strength.
+// An experimental data management system - Using measurements from hypothetical nuclear spectra to determine their source strength.
 
 #include<iomanip>
 #include<iostream>
@@ -21,6 +21,7 @@
 #include"templates.h"
 #include"date.h"
 
+// Function for user input of the experiment date, returns the elements within a vector
 std::vector<int> date_input()
 {
     int day_input;
@@ -88,7 +89,7 @@ int main()
 
     if(source_input=="Na"||source_input=="na")
     {
-        // Sodium instance created (default constructor) so that it's type is printed in the text file
+        // Default sodium instance created so that it's type is printed in the text file
         sodium a{};
         a.type();
 
@@ -97,6 +98,7 @@ int main()
         std::cin>>energy_1;
         if(energy_1=="511"||energy_1=="1275")
         {
+            // Creating stringstreams for the count rate values to be used within sodium instances
             st_1<<rate_prefix<<energy_1;
             rate_1.push_back(st_1.str());
             std::string s_1 = st_1.str();
@@ -117,6 +119,7 @@ int main()
                 std::unique_ptr<sodium> second(new sodium(s_2,day,month,year,rate_value_2));
                 second->save_results();
 
+                // The equation for source strength is dependent on R_511 not R_1275 so the order in which they are input matters
                 if(sodium_order<int>(energy_1, energy_2)==true)
                 {
                 sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day, month, year);

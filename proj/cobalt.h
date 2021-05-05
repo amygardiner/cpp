@@ -28,7 +28,7 @@ public:
     cobalt(const std::string nm, const int d, const int m, const int y, const double cr) : measurement{nm}, day{d}, month{m}, year{y}, count_rate{cr} {}
     // Destructor
     ~cobalt(){}
-    double count_error{sqrt(count_rate)};
+    double count_error{sqrt(count_rate)}; 
     void type()
     {
         std::ofstream outfile;
