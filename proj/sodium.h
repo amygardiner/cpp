@@ -37,7 +37,14 @@ public:
     { 
         std::ofstream outfile;
         outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-        outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        outfile.close();
+    }
+    void file_results()
+    {
+        std::ofstream outfile;
+        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+        outfile<<"Count rate R_"<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
         outfile.close();
     }
 };

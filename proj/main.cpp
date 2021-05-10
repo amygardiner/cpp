@@ -44,6 +44,9 @@ std::vector<int> date_input()
 
 int main()
 {
+    std::string rate_prefix{"R_"};
+    std::stringstream st_1;
+
     // Using the 'date' library and code for conversions sourced at https://howardhinnant.github.io/date/date.html for current time
     using namespace date;
     using namespace std::chrono;
@@ -59,18 +62,65 @@ int main()
     outfile<<"Document created: "<<ymd<<" "<<time<<std::endl;
     outfile.close();
 
+    // User decides to input data from file or terminal
+    char input_type;
+    char datafile[30];
+    std::cout<<"Type f to input data from a file, or any other key to input through the terminal: "<<std::endl;
+    std::cin>>input_type;
+
+    if(input_type=='f'||input_type=='F')
+    {
+        char datafile[30];
+        std::cout<<"Enter data filename (it's sodium.txt): ";
+        std::cin>>datafile;
+        std::fstream sodiumfile(datafile);
+
+        // Checking that the file can be opened
+        if(!sodiumfile.is_open()){
+            std::cerr<<"Error: file could not be opened"<<std::endl;
+            return(1);
+        }
+
+        int n_data{0};
+        std::ifstream in(datafile);
+        std::vector<int> days, months, years;
+        std::vector<std::string> energies;
+        std::vector<double> rates;
+        int j,k,l,n;
+        std::string m;
+
+        while(in>>j>>k>>l>>m>>n)
+        {
+            days.push_back(j);
+            months.push_back(k);
+            years.push_back(l);
+            energies.push_back(m);
+            rates.push_back(n);
+        }
+
+        for(int i{0};i<=days.size()-1;i++)
+        {
+            sodium *test_array[days.size()];
+            test_array[i]=new sodium(energies[i],days[i],months[i],years[i],rates[i]);
+            test_array[i]->file_results();
+        }
+        
+        
+        return(1);  
+    }
+
     while(true){
     char choice;
     std::string source_input{};
     std::vector<std::string> rate_1;
     std::vector<std::string> rate_2;
-    std::string rate_prefix{"R_"};
+    //std::string rate_prefix{"R_"};
     std::string energy_1{};
     std::string energy_2{};
     double rate_value_1{};
     double rate_value_2{};
     double rate_value_sum{};
-    std::stringstream st_1;
+    //std::stringstream st_1;
     std::stringstream st_2;
 
     std::vector<int> myvec=date_input();

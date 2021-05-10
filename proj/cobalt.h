@@ -40,14 +40,14 @@ public:
     { 
         std::ofstream outfile;
         outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-        outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" +- "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
         outfile.close();
     }
     void calc()
     {
         std::cout<<"Please enter the efficiency of the detector at this energy: "<<std::endl;
         std::cin>>efficiency;
-        std::cout<<"Please enter the solid angle of the detector (<4pi)"<<std::endl;
+        std::cout<<"Please enter the solid angle of the detector (<4"<<"\xcf\x80"<<")"<<std::endl; // Unicode symbols for pi here and +- above (L43)
         std::cin>>solid_angle;
         strength=count_rate/(solid_angle*efficiency);
         std::ofstream outfile;
