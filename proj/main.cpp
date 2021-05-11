@@ -14,6 +14,7 @@
 #include<math.h> 
 #include<cstdlib>
 #include<memory>
+#include<algorithm>
 
 #include"measurement.h"
 #include"sodium.h"
@@ -40,6 +41,34 @@ std::vector<int> date_input()
     std::cin>>year_input;
     date_vector.push_back(year_input);
     return date_vector;
+}
+
+void get_index(std::vector<std::string> v, std::string K)
+{
+    //auto it = std::find(v.begin(), v.end(), K);
+    std::vector<std::string> indices;
+    
+    auto it = std::find(v.begin(), v.end(), K);
+    while(it != v.end())
+    {
+        auto left = std::distance(it, v.end());
+        // don't copy past the end:
+        auto copy_end = it+(std::min)(left, decltype(left)(3));
+        std::copy( it, copy_end, std::back_inserter(indices) );
+        // find next:
+        it = std::find( copy_end, v.end(), K);
+        for(int i{0};i<=indices.size();i++)
+            std::cout<<indices[i]<<std::endl;
+    }
+    /*
+
+    // If found
+    if(it != v.end())
+    {
+        long int index{it-v.begin()};
+        std::cout<<index<<std::endl;
+    }
+    */
 }
 
 int main()
@@ -76,7 +105,8 @@ int main()
         std::fstream sodiumfile(datafile);
 
         // Checking that the file can be opened
-        if(!sodiumfile.is_open()){
+        if(!sodiumfile.is_open())
+        {
             std::cerr<<"Error: file could not be opened"<<std::endl;
             return(1);
         }
@@ -98,14 +128,39 @@ int main()
             rates.push_back(n);
         }
 
+        //std::vector<double> energy_1, energy_2, energy_sum;
+
         for(int i{0};i<=days.size()-1;i++)
         {
             sodium *test_array[days.size()];
             test_array[i]=new sodium(energies[i],days[i],months[i],years[i],rates[i]);
             test_array[i]->file_results();
         }
-        
-        
+
+        get_index(energies, "511");
+
+
+        /*
+        for(int i{0};i<=days.size();i++)
+        {
+            if(energies[i]=="511")
+            {
+                energy_1.push_back(rates[i]);
+                std::cout<<energy_1[i]<<std::endl;
+            }
+            if(energies[i]=="1275")
+            {
+                energy_2.push_back(rates[i]);
+                std::cout<<energy_2[i]<<std::endl;
+            }
+            if(energies[i]=="1786")
+            {
+                energy_sum.push_back(rates[i]);
+                std::cout<<energy_sum[i]<<std::endl;
+            }
+        }
+        */
+    
         return(1);  
     }
 
