@@ -44,9 +44,6 @@ std::vector<int> date_input()
 
 int main()
 {
-    std::string rate_prefix{"R_"};
-    std::stringstream st_1;
-
     // Using the 'date' library and code for conversions sourced at https://howardhinnant.github.io/date/date.html for current time
     using namespace date;
     using namespace std::chrono;
@@ -110,11 +107,18 @@ int main()
         {
             if(i==0 || i%3==0)
             {
-                double efficiency{2*(rates[i])/(rates[i+1])};
+                double rate_511{rates[i]};
+                double rate_1275{rates[i+1]};
+                double rate_sum{rates[i+2]};
+                double efficiency{(2*rate_1275)/rate_511};
+                //double efficiency_file{2*(rates[i+1])/(rates[i])};
                 std::ofstream outfile;
                 outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
                 outfile<<"The ratio of detector efficiencies for the energies at lines "<<i+2<<" - "<<i+4<<" is: "<<efficiency<<std::endl;
-                double strength{(efficiency*pow((rates[i+1]),2))/2*(rates[i+2])};
+                double num{efficiency*(pow(rate_511,2))};
+                double denom{2*rate_sum};
+                double strength{num/denom};
+                //double strength{(efficiency*pow((rates[i+1]),2))/(2*(rates[i+2]))};
                 outfile<<"The source strength from the spectra at lines "<<i+2<<" - "<<i+4<<" is: "<<strength<<" s^-1"<<std::endl;
                 outfile.close();
             }
@@ -128,13 +132,13 @@ int main()
     std::string source_input{};
     std::vector<std::string> rate_1;
     std::vector<std::string> rate_2;
-    //std::string rate_prefix{"R_"};
+    std::string rate_prefix{"R_"};
     std::string energy_1{};
     std::string energy_2{};
     double rate_value_1{};
     double rate_value_2{};
     double rate_value_sum{};
-    //std::stringstream st_1;
+    std::stringstream st_1;
     std::stringstream st_2;
 
     std::vector<int> myvec=date_input();
