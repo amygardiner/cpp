@@ -20,24 +20,24 @@
 #include"sodium.h"
 #include"cobalt.h"
 
-template <typename T>
+template<typename T>
     bool sodium_order(const std::string e1, const std::string e2)
     {
         return (e1=="1275") && (e2=="511");
     }
 
-template <typename T>
-    void sodium_calculations(const double a, const double b, double rate_value_sum, const int day, const int month, const int year)
+template<typename T>
+    void sodium_calculations(const double a, const double b, double c, const int day, const int month, const int year)
     {
         double efficiency{2*a/b};
         std::ofstream outfile;
         outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
         outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
         std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
-        std::cin>>rate_value_sum;
-        std::unique_ptr<sodium> third(new sodium("R_sum",day,month,year,rate_value_sum));
+        std::cin>>c;
+        std::unique_ptr<sodium> third(new sodium("R_sum",day,month,year,c));
         third -> save_results();
-        double strength{(efficiency*pow(b,2))/(2*rate_value_sum)};
+        double strength{(efficiency*pow(b,2))/(2*c)};
         outfile<<"The source strength from this spectra is: "<<strength<<" s^-1"<<std::endl;
         outfile.close();
     }
@@ -53,11 +53,11 @@ std::vector<int> date_input()
     std::cin>>day_input;
     date_vector.push_back(day_input);
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),' ');
     std::cin>>month_input;
     date_vector.push_back(month_input);
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),' ');
     std::cin>>year_input;
     date_vector.push_back(year_input);
     return date_vector;
@@ -65,32 +65,30 @@ std::vector<int> date_input()
 
 int main()
 {
+    // Add current timestamp to document
     std::time_t result = std::time(nullptr);
     std::ofstream outfile;
     outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
     outfile<<"Document created: "<<std::asctime(std::localtime(&result));
     outfile.close();
 
-    // User decides to input data from file or terminal
     char input_type;
     char datafile[30];
     std::cout<<"Type f to input data from a file, or any other key to input through the terminal: "<<std::endl;
     std::cin>>input_type;
 
-    if(input_type=='f'||input_type=='F')
-    {
+    if(input_type=='f'||input_type=='F'){
         char datafile[30];
         std::cout<<"Enter data filename (it's sodium.txt): ";
         std::cin>>datafile;
         std::fstream sodiumfile(datafile);
 
-        // Checking that the file can be opened
-        if(!sodiumfile.is_open())
-        {
+        if(!sodiumfile.is_open()){
             std::cerr<<"Error: file could not be opened"<<std::endl;
             return(1);
         }
 
+        // Extracting the information from the datafile
         int n_data{0};
         std::ifstream in(datafile);
         std::vector<int> days, months, years;
@@ -99,8 +97,7 @@ int main()
         int j,k,l,n;
         std::string m;
 
-        while(in>>j>>k>>l>>m>>n)
-        {
+        while(in>>j>>k>>l>>m>>n){
             days.push_back(j);
             months.push_back(k);
             years.push_back(l);
@@ -108,17 +105,15 @@ int main()
             rates.push_back(n);
         }
 
-        for(int i{0};i<=days.size()-1;i++)
-        {
+        for(int i{0};i<=days.size()-1;i++){
             sodium *test_array[days.size()];
             test_array[i]=new sodium(energies[i],days[i],months[i],years[i],rates[i]);
             test_array[i]->file_results();
         }
 
-        for(int i{0};i<=days.size()-1;i++)
-        {
-            if(i==0 || i%3==0)
-            {
+        for(int i{0};i<=days.size()-1;i++){
+            // Each 3 consecutive lines within the file are a set of measurements to be used for the calculations
+            if(i==0 || i%3==0){
                 double rate_511{rates[i]};
                 double rate_1275{rates[i+1]};
                 double rate_sum{rates[i+2]};
@@ -133,133 +128,123 @@ int main()
                 outfile.close();
             }
         }
-
         return(1);  
     }
 
+    // Implementation for user input through the terminal 
     while(true){
-    char choice;
-    std::string source_input{};
-    std::vector<std::string> rate_1;
-    std::vector<std::string> rate_2;
-    std::string rate_prefix{"R_"};
-    std::string energy_1{};
-    std::string energy_2{};
-    double rate_value_1{};
-    double rate_value_2{};
-    double rate_value_sum{};
-    std::stringstream st_1;
-    std::stringstream st_2;
+        char choice;
+        std::string source_input{};
+        std::vector<std::string> rate_1;
+        std::vector<std::string> rate_2;
+        std::string rate_prefix{"R_"};
+        std::string energy_1{};
+        std::string energy_2{};
+        double rate_value_1{};
+        double rate_value_2{};
+        double rate_value_sum{};
+        std::stringstream st_1;
+        std::stringstream st_2;
 
-    std::vector<int> myvec=date_input();
-    int day=myvec[0];
-    int month=myvec[1];
-    int year=myvec[2];
+        std::vector<int> myvec=date_input();
+        int day=myvec[0];
+        int month=myvec[1];
+        int year=myvec[2];
 
-    // Lambda function for error handling of the date elements
-    auto is_in_bounds=[](auto l1, auto l2, auto l3){return !(l1 < l2) && !(l3 < l1);};
-    bool a=is_in_bounds(day,1,31);
-    bool b=is_in_bounds(month,1,12);
-    bool c=is_in_bounds(year,1,2021);
+        // Lambda function for error handling of the date elements
+        auto is_in_bounds=[](auto l1, auto l2, auto l3){return !(l1 < l2) && !(l3 < l1);};
+        bool a=is_in_bounds(day,1,31);
+        bool b=is_in_bounds(month,1,12);
+        bool c=is_in_bounds(year,1,2021);
 
-    if(a==false || b==false || c==false){
-        std::cout<<"The timestamp is incorrect."<<std::endl;
-        continue;
-    }
+        if(a==false || b==false || c==false){
+            std::cout<<"The timestamp is incorrect."<<std::endl;
+            continue;
+        }
 
-    std::cout<<"Enter the nuclear source used - Na or Co:"<<std::endl;
-    std::cin>>source_input;
+        std::cout<<"Enter the nuclear source used - Na or Co:"<<std::endl;
+        std::cin>>source_input;
 
-    if(source_input=="Na"||source_input=="na")
-    {
-        // Default sodium instance created so that it's type is printed in the text file
-        sodium a{};
-        a.type();
+        if(source_input=="Na"||source_input=="na"){
+            // Default sodium instance created so that it's type is printed in the text file
+            sodium a{};
+            a.type();
 
-        while(true){
-        std::cout<<"Which count rate energy does this first data entry belong to? Enter 511 or 1275: "<<std::endl;
-        std::cin>>energy_1;
-        if(energy_1=="511"||energy_1=="1275")
-        {
-            // Creating stringstreams for the count rate values to be used within sodium instances
-            st_1<<rate_prefix<<energy_1;
-            rate_1.push_back(st_1.str());
-            std::string s_1 = st_1.str();
-            std::cout<<"Please enter this count rate value: "<<std::endl;
-            std::cin>>rate_value_1;
-            std::unique_ptr<sodium> first(new sodium(s_1,day,month,year,rate_value_1));
-            first->save_results();
             while(true){
-            std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
-            std::cin>>energy_2;
-            if(energy_2=="511"||energy_2=="1275")
-            {
-                st_2<<rate_prefix<<energy_2;
-                rate_2.push_back(st_2.str());
-                std::string s_2 = st_2.str();
+            std::cout<<"Which count rate energy does this first data entry belong to? Enter 511 or 1275: "<<std::endl;
+            std::cin>>energy_1;
+            if(energy_1=="511"||energy_1=="1275"){
+                // Creating stringstreams for the count rate values to be used within sodium instances
+                st_1<<rate_prefix<<energy_1;
+                rate_1.push_back(st_1.str());
+                std::string s_1 = st_1.str();
                 std::cout<<"Please enter this count rate value: "<<std::endl;
-                std::cin>>rate_value_2;
-                std::unique_ptr<sodium> second(new sodium(s_2,day,month,year,rate_value_2));
-                second->save_results();
+                std::cin>>rate_value_1;
+                std::unique_ptr<sodium> first(new sodium(s_1,day,month,year,rate_value_1));
+                first->save_results();
+                while(true){
+                    std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
+                    std::cin>>energy_2;
+                    if(energy_2=="511"||energy_2=="1275"){
+                        st_2<<rate_prefix<<energy_2;
+                        rate_2.push_back(st_2.str());
+                        std::string s_2 = st_2.str();
+                        std::cout<<"Please enter this count rate value: "<<std::endl;
+                        std::cin>>rate_value_2;
+                        std::unique_ptr<sodium> second(new sodium(s_2,day,month,year,rate_value_2));
+                        second->save_results();
 
-                // The equation for source strength is dependent on R_511 not R_1275 so the order in which they are input matters
-                if(sodium_order<int>(energy_1, energy_2)==true)
-                {
-                sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day, month, year);
-                }
+                        // The equation for source strength is dependent on R_511 not R_1275 so the order in which they are input matters
+                        if(sodium_order<int>(energy_1, energy_2)==true){
+                            sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day, month, year);
+                        }
 
-                if(sodium_order<int>(energy_1, energy_2)==false)
-                {
-                sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day, month, year);
+                        if(sodium_order<int>(energy_1, energy_2)==false){
+                            sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day, month, year);
+                        }
+                        break;
+                    } else{
+                        std::cout<<"This energy doesn't fit the requirement."<<std::endl;
+                        continue;
+                    }
                 }
                 break;
-                } else
-                {
+            } else{
                 std::cout<<"This energy doesn't fit the requirement."<<std::endl;
                 continue;
             }
             }
+        }
+
+        if(source_input=="Co"||source_input=="co"){
+            cobalt a{};
+            a.type();
+            while(true){
+            std::cout<<"Which count rate energy does this data entry belong to? Enter 1173 or 1332: "<<std::endl;
+            std::cin>>energy_1;
+            if(energy_1=="1173"||energy_1=="1332"){
+                st_1<<rate_prefix<<energy_1;
+                rate_1.push_back(st_1.str());
+                std::string s_1 = st_1.str();
+                std::cout<<"Please enter this count rate value: "<<std::endl;
+                std::cin>>rate_value_1;
+                std::unique_ptr<cobalt> first(new cobalt(s_1,day,month,year,rate_value_1));
+                first->save_results();
+                first->calc();
             break;
-        } else
-        {
-            std::cout<<"This energy doesn't fit the requirement."<<std::endl;
-            continue;
+            } else{
+                std::cout<<"This energy doesn't fit the requirement."<<std::endl;
+                continue;
+            }
+            }
         }
-        }
-    }
 
-    if(source_input=="Co"||source_input=="co")
-    {
-        cobalt a{};
-        a.type();
-        while(true){
-        std::cout<<"Which count rate energy does this data entry belong to? Enter 1173 or 1332: "<<std::endl;
-        std::cin>>energy_1;
-        if(energy_1=="1173"||energy_1=="1332")
-        {
-            st_1<<rate_prefix<<energy_1;
-            rate_1.push_back(st_1.str());
-            std::string s_1 = st_1.str();
-            std::cout<<"Please enter this count rate value: "<<std::endl;
-            std::cin>>rate_value_1;
-            std::unique_ptr<cobalt> first(new cobalt(s_1,day,month,year,rate_value_1));
-            first->save_results();
-            first->calc();
-        break;
-        } else
-        {
-            std::cout<<"This energy doesn't fit the requirement."<<std::endl;
-            continue;
-        }
-        }
-    }
+        std::cout<<"Enter more measurements? Enter any key to continue, or N to quit: "<<std::endl;
+        std::cin>>choice;
 
-    std::cout<<"Enter more measurements? Enter any key to continue, or N to quit: "<<std::endl;
-    std::cin>>choice;
-
-    if (choice=='n'||choice=='N'){
-        break;
-    }
+        if (choice=='n'||choice=='N'){
+            break;
+        }
     }
     return 0;
 }
