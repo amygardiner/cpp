@@ -15,6 +15,7 @@
 #include<cstdlib>
 #include<ctime>
 #include<memory>
+#include<stdexcept>
 
 #include"measurement.h"
 #include"sodium.h"
@@ -98,11 +99,14 @@ int main()
             energies.push_back(m);
             rates.push_back(n);
         }
+        in.close();
 
         for(int i{0};i<=days.size()-1;i++){
-            sodium *temp_array[days.size()];
-            temp_array[i]=new sodium(energies[i],days[i],months[i],years[i],rates[i]);
-            temp_array[i]->file_results();
+            sodium *sodium_array[days.size()-1];
+            sodium_array[i]=new sodium(energies[i],days[i],months[i],years[i],rates[i]);
+            sodium_array[i]->file_results();
+            delete sodium_array[i];
+            sodium_array[i]=0;
         }
 
         for(int i{0};i<=days.size()-1;i++){
@@ -146,7 +150,7 @@ int main()
         int year=myvec[2];
 
         // Lambda function for error handling of the date elements
-        auto is_in_bounds=[](auto l1, auto l2, auto l3){return !(l1 < l2) && !(l3 < l1);};
+        auto is_in_bounds=[](auto value, auto lower, auto higher){return !(value < lower) && !(higher < value);};
         bool a=is_in_bounds(day,1,31);
         bool b=is_in_bounds(month,1,12);
         bool c=is_in_bounds(year,1,2021);

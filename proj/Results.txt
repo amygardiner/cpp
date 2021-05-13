@@ -1,0 +1,11 @@
+Document created: Thu May 13 16:41:39 2021
+Count rate R_511 = 900 ± 30 (measured 18/5/2021)
+Count rate R_1275 = 800 ± 28.28 (measured 18/5/2021)
+Count rate R_1786 = 30 ± 5.477 (measured 18/5/2021)
+Count rate R_511 = 1e+04 ± 100 (measured 24/5/2021)
+Count rate R_1275 = 9000 ± 94.87 (measured 24/5/2021)
+Count rate R_1786 = 93 ± 9.644 (measured 24/5/2021)
+The ratio of detector efficiencies for the energies at lines 2 - 4 is: 1.77778
+The source strength from the spectra at lines 2 - 4 is: 24000 s^-1
+The ratio of detector efficiencies for the energies at lines 5 - 7 is: 1.8
+The source strength from the spectra at lines 5 - 7 is: 967742 s^-1
