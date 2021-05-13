@@ -13,13 +13,13 @@
 #include<cmath> 
 #include<math.h> 
 #include<cstdlib>
+#include<ctime>
 #include<memory>
 
 #include"measurement.h"
 #include"sodium.h"
 #include"cobalt.h"
 #include"templates.h"
-#include"date.h"
 
 // Function for user input of the experiment date, returns the elements within a vector
 std::vector<int> date_input()
@@ -44,19 +44,10 @@ std::vector<int> date_input()
 
 int main()
 {
-    // Using the 'date' library and code for conversions sourced at https://howardhinnant.github.io/date/date.html for current time
-    using namespace date;
-    using namespace std::chrono;
-    auto tp=system_clock::now();
-    const auto tpm=floor<minutes>(tp);
-    const auto dp=floor<days>(tpm);
-    const auto ymd=year_month_day{dp};
-    auto time=make_time(tpm-dp);
-
-    // Writes this current time to the text file
+    std::time_t result = std::time(nullptr);
     std::ofstream outfile;
     outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-    outfile<<"Document created: "<<ymd<<" "<<time<<std::endl;
+    outfile<<"Document created: "<<std::asctime(std::localtime(&result));
     outfile.close();
 
     // User decides to input data from file or terminal
