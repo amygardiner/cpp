@@ -21,9 +21,9 @@
 #include"cobalt.h"
 
 template<typename T>
-    bool sodium_order(const std::string e1, const std::string e2)
+    bool sodium_order(const std::string energy_1, const std::string energy_2)
     {
-        return (e1=="1275") && (e2=="511");
+        return (energy_1=="1275") && (energy_2=="511");
     }
 
 template<typename T>
@@ -89,7 +89,6 @@ int main()
         }
 
         // Extracting the information from the datafile
-        int n_data{0};
         std::ifstream in(datafile);
         std::vector<int> days, months, years;
         std::vector<std::string> energies;
@@ -106,9 +105,9 @@ int main()
         }
 
         for(int i{0};i<=days.size()-1;i++){
-            sodium *test_array[days.size()];
-            test_array[i]=new sodium(energies[i],days[i],months[i],years[i],rates[i]);
-            test_array[i]->file_results();
+            sodium *temp_array[days.size()];
+            temp_array[i]=new sodium(energies[i],days[i],months[i],years[i],rates[i]);
+            temp_array[i]->file_results();
         }
 
         for(int i{0};i<=days.size()-1;i++){
@@ -121,9 +120,9 @@ int main()
                 std::ofstream outfile;
                 outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
                 outfile<<"The ratio of detector efficiencies for the energies at lines "<<i+2<<" - "<<i+4<<" is: "<<efficiency<<std::endl;
-                double num{efficiency*(pow(rate_511,2))};
-                double denom{2*rate_sum};
-                double strength{num/denom};
+                double numerator{efficiency*(pow(rate_511,2))};
+                double denominator{2*rate_sum};
+                double strength{numerator/denominator};
                 outfile<<"The source strength from the spectra at lines "<<i+2<<" - "<<i+4<<" is: "<<strength<<" s^-1"<<std::endl;
                 outfile.close();
             }
@@ -143,8 +142,8 @@ int main()
         double rate_value_1{};
         double rate_value_2{};
         double rate_value_sum{};
-        std::stringstream st_1;
-        std::stringstream st_2;
+        std::stringstream stream_1;
+        std::stringstream stream_2;
 
         std::vector<int> myvec=date_input();
         int day=myvec[0];
@@ -175,23 +174,23 @@ int main()
             std::cin>>energy_1;
             if(energy_1=="511"||energy_1=="1275"){
                 // Creating stringstreams for the count rate values to be used within sodium instances
-                st_1<<rate_prefix<<energy_1;
-                rate_1.push_back(st_1.str());
-                std::string s_1 = st_1.str();
+                stream_1<<rate_prefix<<energy_1;
+                rate_1.push_back(stream_1.str());
+                std::string string_1 = stream_1.str();
                 std::cout<<"Please enter this count rate value: "<<std::endl;
                 std::cin>>rate_value_1;
-                std::unique_ptr<sodium> first(new sodium(s_1,day,month,year,rate_value_1));
+                std::unique_ptr<sodium> first(new sodium(string_1,day,month,year,rate_value_1));
                 first->save_results();
                 while(true){
                     std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
                     std::cin>>energy_2;
                     if(energy_2=="511"||energy_2=="1275"){
-                        st_2<<rate_prefix<<energy_2;
-                        rate_2.push_back(st_2.str());
-                        std::string s_2 = st_2.str();
+                        stream_2<<rate_prefix<<energy_2;
+                        rate_2.push_back(stream_2.str());
+                        std::string string_2 = stream_2.str();
                         std::cout<<"Please enter this count rate value: "<<std::endl;
                         std::cin>>rate_value_2;
-                        std::unique_ptr<sodium> second(new sodium(s_2,day,month,year,rate_value_2));
+                        std::unique_ptr<sodium> second(new sodium(string_2,day,month,year,rate_value_2));
                         second->save_results();
 
                         // The equation for source strength is dependent on R_511 not R_1275 so the order in which they are input matters
@@ -223,12 +222,12 @@ int main()
             std::cout<<"Which count rate energy does this data entry belong to? Enter 1173 or 1332: "<<std::endl;
             std::cin>>energy_1;
             if(energy_1=="1173"||energy_1=="1332"){
-                st_1<<rate_prefix<<energy_1;
-                rate_1.push_back(st_1.str());
-                std::string s_1 = st_1.str();
+                stream_1<<rate_prefix<<energy_1;
+                rate_1.push_back(stream_1.str());
+                std::string string_1 = stream_1.str();
                 std::cout<<"Please enter this count rate value: "<<std::endl;
                 std::cin>>rate_value_1;
-                std::unique_ptr<cobalt> first(new cobalt(s_1,day,month,year,rate_value_1));
+                std::unique_ptr<cobalt> first(new cobalt(string_1,day,month,year,rate_value_1));
                 first->save_results();
                 first->calc();
             break;
