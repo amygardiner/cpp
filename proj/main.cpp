@@ -229,7 +229,7 @@ int main()
                 std::cin>>rate_value_1;
                 std::unique_ptr<cobalt> first(new cobalt(string_1,day,month,year,rate_value_1));
                 first->save_results();
-                first->calc();
+                first->calculation();
             break;
             } else{
                 std::cout<<"This energy doesn't fit the requirement."<<std::endl;

@@ -43,7 +43,7 @@ public:
         outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
         outfile.close();
     }
-    void calc()
+    void calculation()
     {
         std::cout<<"Please enter the efficiency of the detector at this energy: "<<std::endl;
         std::cin>>efficiency;
@@ -54,7 +54,6 @@ public:
         outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
         outfile<<"The source strength from this spectra is: "<<std::setprecision(4)<<strength<<" s^-1"<<std::endl;
         outfile.close();
-
     }
 };
 
