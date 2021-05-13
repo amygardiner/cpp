@@ -19,7 +19,28 @@
 #include"measurement.h"
 #include"sodium.h"
 #include"cobalt.h"
-#include"templates.h"
+
+template <typename T>
+    bool sodium_order(const std::string e1, const std::string e2)
+    {
+        return (e1=="1275") && (e2=="511");
+    }
+
+template <typename T>
+    void sodium_calculations(const double a, const double b, double rate_value_sum, const int day, const int month, const int year)
+    {
+        double efficiency{2*a/b};
+        std::ofstream outfile;
+        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+        outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
+        std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
+        std::cin>>rate_value_sum;
+        std::unique_ptr<sodium> third(new sodium("R_sum",day,month,year,rate_value_sum));
+        third -> save_results();
+        double strength{(efficiency*pow(b,2))/(2*rate_value_sum)};
+        outfile<<"The source strength from this spectra is: "<<strength<<" s^-1"<<std::endl;
+        outfile.close();
+    }
 
 // Function for user input of the experiment date, returns the elements within a vector
 std::vector<int> date_input()
@@ -135,8 +156,13 @@ int main()
     int month=myvec[1];
     int year=myvec[2];
 
-    // Error checking for the user-input datestamp
-    if(is_in_bounds<int>(day,1,31)==false || is_in_bounds<int>(month,1,12)==false || is_in_bounds<int>(year,1,2021)==false){
+    // Lambda function for error handling of the date elements
+    auto is_in_bounds=[](auto l1, auto l2, auto l3){return !(l1 < l2) && !(l3 < l1);};
+    bool a=is_in_bounds(day,1,31);
+    bool b=is_in_bounds(month,1,12);
+    bool c=is_in_bounds(year,1,2021);
+
+    if(a==false || b==false || c==false){
         std::cout<<"The timestamp is incorrect."<<std::endl;
         continue;
     }
