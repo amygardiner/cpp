@@ -81,15 +81,10 @@ int main()
         char datafile[30];
         std::cout<<"Enter data filename (it's sodium.txt): ";
         std::cin>>datafile;
-        std::fstream sodiumfile(datafile);
-
-        if(!sodiumfile.is_open()){
-            std::cerr<<"Error: file could not be opened"<<std::endl;
-            return(1);
-        }
-
-        // Extracting the information from the datafile
         std::ifstream in(datafile);
+        if(!in){
+            throw std::runtime_error("Could not open file");
+        }
         std::vector<int> days, months, years;
         std::vector<std::string> energies;
         std::vector<double> rates;
