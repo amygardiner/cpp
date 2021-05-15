@@ -112,7 +112,6 @@ int file(std::ifstream &in)
     return(1);  
 }
 
-
 int terminal()
 {
     while(true){
@@ -135,7 +134,10 @@ int terminal()
         int year=myvec[2];
 
         // Lambda function for error handling of the date elements
-        auto is_in_bounds=[](auto value, auto lower, auto higher){return !(value < lower) && !(higher < value);};
+        auto is_in_bounds=[](auto value, auto lower, auto higher)
+        {
+            return !(value < lower) && !(higher < value);
+        };
         bool a=is_in_bounds(day,1,31);
         bool b=is_in_bounds(month,1,12);
         bool c=is_in_bounds(year,1,2021);
