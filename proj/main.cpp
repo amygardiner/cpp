@@ -64,27 +64,10 @@ std::vector<int> date_input()
     return date_vector;
 }
 
-int main()
+int file_sort(std::ifstream &in)
 {
-    // Add current timestamp to document
-    std::time_t result = std::time(nullptr);
-    std::ofstream outfile;
-    outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-    outfile<<"Document created: "<<std::asctime(std::localtime(&result));
-    outfile.close();
-
-    char input_type;
-    char datafile[30];
-    std::cout<<"Type f to input data from a file, or any other key to input through the terminal: "<<std::endl;
-    std::cin>>input_type;
-
-    if(input_type=='f'||input_type=='F'){
-        char datafile[30];
-        std::cout<<"Enter data filename (it's sodium.txt): ";
-        std::cin>>datafile;
-        std::ifstream in(datafile);
         if(!in){
-            throw std::runtime_error("Could not open file");
+            throw std::runtime_error("a runtime_error exception: ");
         }
         std::vector<int> days, months, years;
         std::vector<std::string> energies;
@@ -126,7 +109,36 @@ int main()
                 outfile.close();
             }
         }
-        return(1);  
+    return(1);  
+}
+
+int main()
+{
+    // Add current timestamp to document
+    std::time_t result = std::time(nullptr);
+    std::ofstream outfile;
+    outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
+    outfile<<"Document created: "<<std::asctime(std::localtime(&result));
+    outfile.close();
+
+    char input_type;
+    char datafile[30];
+    std::cout<<"Type f to input data from a file, or any other key to input through the terminal: "<<std::endl;
+    std::cin>>input_type;
+
+    if(input_type=='f'||input_type=='F'){
+        char datafile[30];
+        std::cout<<"Enter data filename (it's sodium.txt): ";
+        std::cin>>datafile;
+        std::ifstream in(datafile);
+
+        try {
+            result=file_sort(in);
+            return(1);
+            } catch(std::runtime_error &e) {
+                  std::cout<<"Caught "<<e.what()<<" Could not open file."<<std::endl;
+                  exit(EXIT_FAILURE);
+            }
     }
 
     // Implementation for user input through the terminal 
