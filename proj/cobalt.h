@@ -47,7 +47,7 @@ public:
     {
         std::cout<<"Please enter the efficiency of the detector at this energy: "<<std::endl;
         std::cin>>efficiency;
-        std::cout<<"Please enter the solid angle of the detector (<4"<<"\xcf\x80"<<")"<<std::endl; // Unicode symbols for pi here and +- above (L43)
+        std::cout<<"Please enter the solid angle of the detector (<4"<<"\u03C0"<<")"<<std::endl;
         std::cin>>solid_angle;
         strength=count_rate/(solid_angle*efficiency);
         std::ofstream outfile;
