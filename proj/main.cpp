@@ -183,9 +183,7 @@ int terminal()
                         // The equation for source strength is dependent on R_511 not R_1275 so the order in which they are input matters
                         if(sodium_order<int>(energy_1, energy_2)==true){
                             sodium_calculations<int>(rate_value_1, rate_value_2, rate_value_sum, day, month, year);
-                        }
-
-                        if(sodium_order<int>(energy_1, energy_2)==false){
+                        } else {
                             sodium_calculations<int>(rate_value_2, rate_value_1, rate_value_sum, day, month, year);
                         }
                         break;
