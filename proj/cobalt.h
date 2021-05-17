@@ -25,7 +25,8 @@ public:
     // Default constructor
     cobalt() : measurement{}, day{}, month{}, year{}, count_rate{} {}
     // Parameterised constructor 
-    cobalt(const std::string nm, const int d, const int m, const int y, const double cr) : measurement{nm}, day{d}, month{m}, year{y}, count_rate{cr} {}
+    cobalt(const std::string nm, const int d, const int m, const int y, const double cr) : measurement{nm},
+    day{d}, month{m}, year{y}, count_rate{cr} {}
     // Destructor
     ~cobalt(){}
     double count_error{sqrt(count_rate)}; 
@@ -40,7 +41,8 @@ public:
     { 
         std::ofstream outfile;
         outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-        outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "
+        <<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
         outfile.close();
     }
     void calculation()

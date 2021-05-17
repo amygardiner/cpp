@@ -18,11 +18,13 @@ protected:
     int month;
     int year;
     double count_rate;
+    char input_type;
 public:
     // Default constructor
-    sodium() : measurement{}, day{}, month{}, year{}, count_rate{} {}
+    sodium() : measurement{}, day{}, month{}, year{}, count_rate{}, input_type{} {}
     // Parameterised constructor 
-    sodium(const std::string nm, const int d, const int m, const int y, const double cr) : measurement{nm}, day{d}, month{m}, year{y}, count_rate{cr} {}
+    sodium(const std::string nm, const int d, const int m, const int y, const double cr, const char it) : 
+    measurement{nm}, day{d}, month{m}, year{y}, count_rate{cr}, input_type{it} {}
     // Destructor
     ~sodium(){}
     double count_error{sqrt(count_rate)};
@@ -37,15 +39,14 @@ public:
     { 
         std::ofstream outfile;
         outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-        outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        if(input_type=='f'||input_type=='F'){
+            outfile<<"Count rate R_"<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "<<
+            count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
+        } else {
+        outfile<<"Count rate "<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "<<
+        count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
         outfile.close();
-    }
-    void file_results()
-    {
-        std::ofstream outfile;
-        outfile.open("Results.txt",std::ios_base::out | std::ios_base::app);
-        outfile<<"Count rate R_"<<name<<" = "<<std::setprecision(4)<<count_rate<<" \u00B1 "<<count_error<<" (measured "<<day<<"/"<<month<<"/"<<year<<")"<<std::endl;
-        outfile.close();
+        }
     }
 };
 

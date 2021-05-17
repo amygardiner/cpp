@@ -15,7 +15,7 @@
 #include<cstdlib>
 #include<ctime>
 #include<memory>
-#include<stdexcept>
+#include<exception>
 
 #include"measurement.h"
 #include"sodium.h"
@@ -36,7 +36,7 @@ template<typename T>
         outfile<<"The ratio of detector efficiencies at these energies is: "<<efficiency<<std::endl;
         std::cout<<"Please enter the count rate value of the sum peak, R_sum: "<<std::endl;
         std::cin>>c;
-        std::unique_ptr<sodium> third(new sodium("R_sum",day,month,year,c));
+        std::unique_ptr<sodium> third(new sodium("R_sum",day,month,year,c,'t'));
         third -> save_results();
         double strength{(efficiency*pow(b,2))/(2*c)};
         outfile<<"The source strength from this spectra is: "<<strength<<" s^-1"<<std::endl;
@@ -67,7 +67,7 @@ std::vector<int> date_input()
 int file(std::ifstream &in)
 {
         if(!in){
-            throw std::runtime_error("a runtime_error exception: ");
+            throw std::system_error(errno, std::system_category(),"failed to open ");
         }
         std::vector<int> days, months, years;
         std::vector<std::string> energies;
@@ -86,8 +86,9 @@ int file(std::ifstream &in)
 
         for(int i{0};i<=days.size()-1;i++){
             sodium *sodium_array[days.size()-1];
-            sodium_array[i]=new sodium(energies[i],days[i],months[i],years[i],rates[i]);
-            sodium_array[i]->file_results();
+            sodium_array[i]=new sodium(energies[i],days[i],months[i],years[i],rates[i],'f');
+            //sodium_array[i]->file_results();
+            sodium_array[i]->save_results();
             delete sodium_array[i];
             sodium_array[i]=0;
         }
@@ -165,7 +166,7 @@ int terminal()
                 std::string string_1 = stream_1.str();
                 std::cout<<"Please enter this count rate value: "<<std::endl;
                 std::cin>>rate_value_1;
-                std::unique_ptr<sodium> first(new sodium(string_1,day,month,year,rate_value_1));
+                std::unique_ptr<sodium> first(new sodium(string_1,day,month,year,rate_value_1,'t'));
                 first->save_results();
                 while(true){
                     std::cout<<"Which count rate energy does this second data entry belong to? Enter 511 or 1275: "<<std::endl;
@@ -176,7 +177,7 @@ int terminal()
                         std::string string_2 = stream_2.str();
                         std::cout<<"Please enter this count rate value: "<<std::endl;
                         std::cin>>rate_value_2;
-                        std::unique_ptr<sodium> second(new sodium(string_2,day,month,year,rate_value_2));
+                        std::unique_ptr<sodium> second(new sodium(string_2,day,month,year,rate_value_2,'t'));
                         second->save_results();
 
                         // The equation for source strength is dependent on R_511 not R_1275 so the order in which they are input matters
@@ -257,8 +258,8 @@ int main()
         try {
             result=file(in);
             return(1);
-            } catch(std::runtime_error &e) {
-                  std::cout<<"Caught "<<e.what()<<" Could not open file."<<std::endl;
+            } catch(std::system_error &e) {
+                  std::cout<<e.what()<<" ("<<e.code()<<")"<<std::endl;
                   exit(EXIT_FAILURE);
             }
     }
